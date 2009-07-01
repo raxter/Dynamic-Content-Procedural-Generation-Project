@@ -20,10 +20,11 @@ namespace GUI {
 **
 ****************************************************************************/
 
-ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), application(application) 
+ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), application(application)
 {
   setupUi(this);
-
+  glDisplay = new GLDisplay();
+  this->setCentralWidget(glDisplay);
 }
 
 /****************************************************************************
@@ -33,7 +34,7 @@ ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), appli
 ****************************************************************************/
 
 ProcGenTestBed::~ProcGenTestBed() {
-
+  delete glDisplay;
 }
 
 

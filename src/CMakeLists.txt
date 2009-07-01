@@ -6,6 +6,7 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${PROC_GEN_SOURCE_DIR} ${PROC_GEN_BINARY
 # add Qt modules here, the include will setup QT_LIBRARIES
 #SET(QT_USE_QTNETWORK TRUE)
 #SET(QT_USE_QTWEBKIT TRUE)
+SET(QT_USE_QTOPENGL TRUE)
 
 INCLUDE(${QT_USE_FILE})
 
@@ -13,6 +14,7 @@ INCLUDE(${QT_USE_FILE})
 SET(PROC_GEN_SRCS_CXX
 
   gui/proc_gen_test_bed.cpp
+  gui/gl_display.cpp
 
   main.cpp
 )
@@ -21,6 +23,7 @@ SET(PROC_GEN_SRCS_CXX
 SET(PROC_GEN_MOC_SRCS
 
   gui/proc_gen_test_bed.h
+  gui/gl_display.h
 )
 
 SET(PROC_GEN_UI
