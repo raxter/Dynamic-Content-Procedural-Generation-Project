@@ -3,26 +3,45 @@
 
 #include <QThread>
 
+#include "abstract_game.h"
+#include "abstract_display.h"
+
 namespace ProcGen {
 
 namespace Game {
 
   
-class GameRunner : private QThread {
+class GameRunner : public QThread {
 
+  Q_OBJECT
+  
   public: /* class specific */
 
-  GameRunner();
+  GameRunner(AbstractGame& gameCore, AbstractDisplay& displayer);
   ~GameRunner();
   
-  public: /* methods */
+  public slots:
 
-  void runAbstractGame(AbstractGame& abstractGame);
+  void runGame();
+  void displayerInitialized();
+  
+  signals:
+  
+  void doInitStep();
+  void doLogicStep();
+  void doRenderStep();
+  
+  void requestDisplayInitializationSignal();
+  
+  private: /* methods */
+  void start();
   void run();
   
   void normalQuit();
   void forceQuit();
   
+  private: /* variables */
+  bool running;
   
 };
 

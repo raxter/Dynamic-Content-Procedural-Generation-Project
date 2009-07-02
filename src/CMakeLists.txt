@@ -15,6 +15,13 @@ SET(PROC_GEN_SRCS_CXX
 
   gui/proc_gen_test_bed.cpp
   gui/gl_display.cpp
+  gui/gl_display_widget.cpp
+  
+  game/abstract_display.cpp
+  game/abstract_game.cpp
+  game/game_runner.cpp
+  
+  game/test_game.cpp
 
   main.cpp
 )
@@ -24,6 +31,11 @@ SET(PROC_GEN_MOC_SRCS
 
   gui/proc_gen_test_bed.h
   gui/gl_display.h
+  gui/gl_display_widget.h
+  
+  game/abstract_display.h
+  game/abstract_game.h
+  game/game_runner.h
 )
 
 SET(PROC_GEN_UI

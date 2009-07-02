@@ -4,27 +4,43 @@
 
 #include <QGLWidget>
 
+#include "game/abstract_display.h"
+#include "gl_display_widget.h"
+
 namespace ProcGen {
 
 namespace GUI {
 
   
-class GLDisplay : public QGLWidget {
+class GLDisplay : public Game::AbstractDisplay {
 
-  //Q_OBJECT
+  Q_OBJECT
 
   public: /* class specific */
 
-  GLDisplay(QWidget* parent = 0);
+  GLDisplay(GLDisplayWidget& glDisplayWidget);
   ~GLDisplay();
 
-  public: /* over-rided methods */
-  
-  void initializeGL();
-  //void paintGL(); /*NOTE don't use paintGL because it is called by qt automatically, and we don't want that...*/
-  void updateGL();
-  void resizeGL();
+  signals: /* over-ridden */
+  void ready();
 
+  public slots: /* over-ridden */
+  void requestReady();
+
+  public: /* over-ridden methods */
+  
+  bool isInitialized() const;
+  
+  void initRenderStep();
+  void cleanupRenderStep();
+  
+  void drawCube(double cx, double cy, double cz, double sx, double sy, double sz);
+  void drawPolygon(const QVector<double>& points);
+  //void drawMesh, etc
+
+  private: /* variabels */
+  bool initialized;
+  GLDisplayWidget& glDisplayWidget;
 
 };
 

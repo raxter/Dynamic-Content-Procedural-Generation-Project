@@ -1,30 +1,44 @@
 #ifndef __PROCGEN_GAME_ABSTRACTDISPLAY_H__
 #define __PROCGEN_GAME_ABSTRACTDISPLAY_H__
 
+#include <QVector>
+#include <QObject>
 
 namespace ProcGen {
 
 namespace Game {
 
   
-class AbstractDisplay {
+class AbstractDisplay : public QObject {
 
-  public: /* class specific */
+  Q_OBJECT
+
+  protected: /* class specific */
 
   AbstractDisplay();
   virtual ~AbstractDisplay();
   
+  /* Overload these signals!*/
+  signals:
+  //void displayInitialized();
+  void ready();
+  
+  public slots:
+  void requestReady();
+  
   public: /* methods */
   
-  virtual void initRenderStep();
+  virtual bool isInitialized() const = 0;
   
-  virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz);
+  virtual void initRenderStep() = 0;
   
-  virtual void drawPolygon(const QVector<double>& points);
+  virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) = 0;
+  
+  virtual void drawPolygon(const QVector<double>& points) = 0;
   
   //void drawMesh, etc
   
-  virtual void cleanupRenderStep();
+  virtual void cleanupRenderStep() = 0;
   
   
 };

@@ -13,6 +13,8 @@
 #include "ui_proc_gen_test_bed.h"
 
 #include "gl_display.h"
+#include "game/test_game.h"
+#include "game/game_runner.h"
 
 namespace ProcGen {
 
@@ -21,6 +23,8 @@ namespace GUI {
 
 class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
 
+  Q_OBJECT
+  
   public: /* class specific */
 
   ProcGenTestBed(QApplication &application);
@@ -29,7 +33,10 @@ class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
   private: /* variables */
 
   QApplication &application;
+  GLDisplayWidget* glDisplayWidget;
   GLDisplay* glDisplay;
+  Game::TestGame* testGame;
+  Game::GameRunner* gameRunner;
 };
 
 } /* end of namespace GUI */
