@@ -87,7 +87,7 @@ void GameRunner::run()
   emit doInitStep();
   
   while (running) {
-    yieldCurrentThread ();
+    ;//yieldCurrentThread ();
   }
   
   for (int i = 0 ; i < 10000 ; i++) {
