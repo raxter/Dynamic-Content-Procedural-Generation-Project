@@ -1,24 +1,23 @@
-#ifndef __PROCGEN_GAME_GAMERUNNER_H__
-#define __PROCGEN_GAME_GAMERUNNER_H__
+#ifndef __PROCGEN_ABSTRACTGAMECOMPONENT_RUNNER_H__
+#define __PROCGEN_ABSTRACTGAMECOMPONENT_RUNNER_H__
 
 #include <QThread>
 
-#include "abstract_game.h"
-#include "abstract_display.h"
+#include "game.h"
+#include "display.h"
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
-  
-class GameRunner : public QThread {
+class Runner : public QThread {
 
   Q_OBJECT
   
   public: /* class specific */
 
-  GameRunner(AbstractGame& gameCore, AbstractDisplay& displayer);
-  ~GameRunner();
+  Runner(Game& gameCore, Display& displayer);
+  ~Runner();
   
   public slots:
 
@@ -45,7 +44,7 @@ class GameRunner : public QThread {
   
 };
 
-} /* end of namespace Game */
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

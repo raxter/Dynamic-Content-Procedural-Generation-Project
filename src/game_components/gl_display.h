@@ -4,15 +4,15 @@
 
 #include <QGLWidget>
 
-#include "game/abstract_display.h"
-#include "gl_display_widget.h"
+#include "abstract_game_components/display.h"
+#include "game_components/gl_display_widget.h"
 
 namespace ProcGen {
 
 namespace GUI {
 
   
-class GLDisplay : public Game::AbstractDisplay {
+class GLDisplay : public AbstractGameComponent::Display {
 
   Q_OBJECT
 

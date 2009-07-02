@@ -1,4 +1,7 @@
-#include "abstract_game.h"
+#include "test_game.h"
+
+//#include "abstract_game_components/game.h"
+//#include "abstract_game_components/display.h"
 
 #include <QDebug>
 
@@ -13,7 +16,7 @@ namespace Game {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-AbstractGame::AbstractGame()
+TestGame::TestGame() : AbstractGameComponent::Game(), framecount(0)
 {
 
 }
@@ -24,53 +27,68 @@ AbstractGame::AbstractGame()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-AbstractGame::~AbstractGame()
+TestGame::~TestGame()
 {
 
 }
+
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void AbstractGame::setDisplayer(AbstractDisplay* displayer)
+void TestGame::initStep(void * pntr)
 {
-  this->displayer = displayer;
+  qDebug() << "TestGame::initStep";
 }
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void TestGame::logicStep(void * pntr)
+{
+  qDebug() << "TestGame::logicStep";
+  framecount++;
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void TestGame::renderStep(void * pntr)
+{
+
+  qDebug() << "TestGame::renderStep";
   
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
   
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractGame::initStep(void * pntr)
-{
+  glRotated(45, 0,0,1);
 
+  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
+  
+  {
+    glColor3f(0.0,0.0,1.0);
+    QVector<double> points;
+    points.append(  0.1); points.append(  0.1); points.append(0.5);
+    
+    points.append( 100); points.append(  0.1); points.append(0.5);
+    
+    points.append( 100); points.append( 100); points.append(0.5);
+    
+    points.append(  0.1); points.append( 100); points.append(0.5);
+     
+    displayer->drawPolygon(points);
+  }
 }
 
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractGame::logicStep(void * pntr)
-{
-
-}
-
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractGame::renderStep(void * pntr)
-{
-
-}
 
 } /* end of namespace Game */
 

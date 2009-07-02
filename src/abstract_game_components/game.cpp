@@ -1,79 +1,78 @@
-#include "abstract_display.h"
+#include "game.h"
 
 #include <QDebug>
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
+  
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+Game::Game()
+{
+
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+Game::~Game()
+{
+
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Game::setDisplayer(Display* displayer)
+{
+  this->displayer = displayer;
+}
+  
   
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-AbstractDisplay::AbstractDisplay()
+void Game::initStep(void * pntr)
 {
+
 }
 
-  
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-AbstractDisplay::~AbstractDisplay()
-{
-}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void AbstractDisplay::requestReady() {
-  qDebug() << "AbstractDisplay::requestReady";
-  emit ready();
+void Game::logicStep(void * pntr)
+{
+
 }
 
-  
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractDisplay::initRenderStep()
-{
-}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void AbstractDisplay::cleanupRenderStep()
+void Game::renderStep(void * pntr)
 {
+
 }
 
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, double sz)
-{
-}
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void AbstractDisplay::drawPolygon(const QVector<double>& points)
-{
-}
-
-} /* end of namespace Game */
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

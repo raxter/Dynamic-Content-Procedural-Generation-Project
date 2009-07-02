@@ -1,22 +1,22 @@
-#ifndef __PROCGEN_GAME_ABSTRACTDISPLAY_H__
-#define __PROCGEN_GAME_ABSTRACTDISPLAY_H__
+#ifndef __PROCGEN_ABSTRACTGAMECOMPONENT_DISPLAY_H__
+#define __PROCGEN_ABSTRACTGAMECOMPONENT_DISPLAY_H__
 
 #include <QVector>
 #include <QObject>
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
   
-class AbstractDisplay : public QObject {
+class Display : public QObject {
 
   Q_OBJECT
 
   protected: /* class specific */
 
-  AbstractDisplay();
-  virtual ~AbstractDisplay();
+  Display();
+  virtual ~Display();
   
   /* Overload these signals!*/
   signals:
@@ -43,7 +43,7 @@ class AbstractDisplay : public QObject {
   
 };
 
-} /* end of namespace Game */
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

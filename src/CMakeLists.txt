@@ -14,14 +14,15 @@ INCLUDE(${QT_USE_FILE})
 SET(PROC_GEN_SRCS_CXX
 
   gui/proc_gen_test_bed.cpp
-  gui/gl_display.cpp
-  gui/gl_display_widget.cpp
   
-  game/abstract_display.cpp
-  game/abstract_game.cpp
-  game/game_runner.cpp
+  game_components/test_game.cpp
+  game_components/gl_display.cpp
+  game_components/gl_display_widget.cpp
   
-  game/test_game.cpp
+  abstract_game_components/display.cpp
+  abstract_game_components/game.cpp
+  abstract_game_components/runner.cpp
+  
 
   main.cpp
 )
@@ -30,12 +31,14 @@ SET(PROC_GEN_SRCS_CXX
 SET(PROC_GEN_MOC_SRCS
 
   gui/proc_gen_test_bed.h
-  gui/gl_display.h
-  gui/gl_display_widget.h
   
-  game/abstract_display.h
-  game/abstract_game.h
-  game/game_runner.h
+  game_components/test_game.h
+  game_components/gl_display.h
+  game_components/gl_display_widget.h
+  
+  abstract_game_components/display.h
+  abstract_game_components/game.h
+  abstract_game_components/runner.h
 )
 
 SET(PROC_GEN_UI

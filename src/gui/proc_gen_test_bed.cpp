@@ -30,7 +30,7 @@ ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), appli
   glDisplay = new GLDisplay(*glDisplayWidget);
   
   testGame = new Game::TestGame();
-  gameRunner = new Game::GameRunner(*testGame, *glDisplay);
+  gameRunner = new AbstractGameComponent::Runner(*testGame, *glDisplay);
   
   gameRunner->runGame();
 }

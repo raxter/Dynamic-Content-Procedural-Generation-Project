@@ -1,10 +1,10 @@
-#include "game_runner.h"
+#include "runner.h"
 
 #include <QDebug>
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
 
 /****************************************************************************
@@ -12,7 +12,7 @@ namespace Game {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-GameRunner::GameRunner(AbstractGame& gameCore, AbstractDisplay& displayer)
+Runner::Runner(Game& gameCore, Display& displayer)
 {
   gameCore.setDisplayer(&displayer);
   
@@ -36,7 +36,7 @@ GameRunner::GameRunner(AbstractGame& gameCore, AbstractDisplay& displayer)
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-GameRunner::~GameRunner()
+Runner::~Runner()
 {
   
 }
@@ -49,7 +49,7 @@ GameRunner::~GameRunner()
 ** FIXME AbstractGame& abstractGame maybe should go in constructor
 **
 ****************************************************************************/
-void GameRunner::runGame()
+void Runner::runGame()
 {
   /* TODO do some stuff to see if game can be run and whatnot, do initialisation of game, make sure thread already isn't running! etc */
   /* even though the displayInitialized slot is to be called, double check if it has not been initilized already*/
@@ -62,7 +62,7 @@ void GameRunner::runGame()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GameRunner::start() {
+void Runner::start() {
 }
 
 /****************************************************************************
@@ -70,7 +70,7 @@ void GameRunner::start() {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GameRunner::displayerInitialized() {
+void Runner::displayerInitialized() {
   running = true;
 }
 
@@ -79,7 +79,7 @@ void GameRunner::displayerInitialized() {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GameRunner::run()
+void Runner::run()
 {
   /* TODO, proper game loop goes here */
   
@@ -104,7 +104,7 @@ void GameRunner::run()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GameRunner::normalQuit()
+void Runner::normalQuit()
 {
   /* TODO set the running variable to false or whatever :/ */
 }
@@ -115,12 +115,12 @@ void GameRunner::normalQuit()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GameRunner::forceQuit()
+void Runner::forceQuit()
 {
   quit(); /* force closes the thread */
 }
 
-} /* end of namespace Game */
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

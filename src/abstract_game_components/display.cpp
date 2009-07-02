@@ -1,93 +1,79 @@
-#include "test_game.h"
+#include "display.h"
 
 #include <QDebug>
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
   
-
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-TestGame::TestGame() : AbstractGame(), framecount(0)
+Display::Display()
 {
-
 }
 
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-TestGame::~TestGame()
-{
-
-}
-
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void TestGame::initStep(void * pntr)
-{
-  qDebug() << "TestGame::initStep";
-}
-
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void TestGame::logicStep(void * pntr)
-{
-  qDebug() << "TestGame::logicStep";
-  framecount++;
-}
-
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void TestGame::renderStep(void * pntr)
-{
-
-  qDebug() << "TestGame::renderStep";
   
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  
-  glRotated(45, 0,0,1);
-
-  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-  
-  {
-    glColor3f(0.0,0.0,1.0);
-    QVector<double> points;
-    points.append(  0.1); points.append(  0.1); points.append(0.5);
-    
-    points.append( 100); points.append(  0.1); points.append(0.5);
-    
-    points.append( 100); points.append( 100); points.append(0.5);
-    
-    points.append(  0.1); points.append( 100); points.append(0.5);
-     
-    displayer->drawPolygon(points);
-  }
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+Display::~Display()
+{
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::requestReady() {
+  qDebug() << "Display::requestReady";
+  emit ready();
+}
 
-} /* end of namespace Game */
+  
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::initRenderStep()
+{
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::cleanupRenderStep()
+{
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::drawCube(double cx, double cy, double cz, double sx, double sy, double sz)
+{
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::drawPolygon(const QVector<double>& points)
+{
+}
+
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

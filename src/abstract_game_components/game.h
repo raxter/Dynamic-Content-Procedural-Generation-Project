@@ -1,23 +1,23 @@
-#ifndef __PROCGEB_GAME_ABSTRACTGAME_H__
-#define __PROCGEB_GAME_ABSTRACTGAME_H__
+#ifndef __PROCGEB_ABSTRACTGAMECOMPONENT_GAME_H__
+#define __PROCGEB_ABSTRACTGAMECOMPONENT_GAME_H__
 
 #include <QObject>
 
-#include "abstract_display.h"
+#include "display.h"
 
 namespace ProcGen {
 
-namespace Game {
+namespace AbstractGameComponent {
 
   
-class AbstractGame : public QObject {
+class Game : public QObject {
 
   Q_OBJECT
 
   public: /* class specific */
 
-  AbstractGame();
-  virtual ~AbstractGame();
+  Game();
+  virtual ~Game();
   
   public slots: /* virtual */
 
@@ -26,13 +26,13 @@ class AbstractGame : public QObject {
   virtual void renderStep(void * pntr = 0);
 
   public: /* methods */
-  void setDisplayer(AbstractDisplay* displayer);
+  void setDisplayer(Display* displayer);
 
   protected: /* variables */
-  AbstractDisplay* displayer;
+  Display* displayer;
 };
 
-} /* end of namespace Game */
+} /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
 

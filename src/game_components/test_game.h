@@ -3,15 +3,16 @@
 
 #include <QGLContext>
 
-#include "abstract_game.h"
-#include "abstract_display.h"
+#include "abstract_game_components/game.h"
 
 namespace ProcGen {
 
 namespace Game {
 
   
-class TestGame : public AbstractGame {
+class TestGame : public AbstractGameComponent::Game {
+
+  Q_OBJECT
 
   public: /* class specific */
 
