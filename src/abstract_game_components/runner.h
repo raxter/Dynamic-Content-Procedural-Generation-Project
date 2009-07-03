@@ -5,6 +5,7 @@
 
 #include "game.h"
 #include "display.h"
+#include "control_interface.h"
 
 namespace ProcGen {
 
@@ -16,7 +17,7 @@ class Runner : public QThread {
   
   public: /* class specific */
 
-  Runner(Game& gameCore, Display& displayer);
+  Runner(Game& gameCore, Display& displayer, ControlInterface& controlInterface);
   ~Runner();
   
   public slots:
@@ -27,6 +28,7 @@ class Runner : public QThread {
   signals:
   
   void doInitStep();
+  void doEventStep();
   void doLogicStep();
   void doRenderStep();
   
@@ -38,6 +40,9 @@ class Runner : public QThread {
   
   void normalQuit();
   void forceQuit();
+  
+  protected: /* variables */
+  const ControlInterface& controlInterface;
   
   private: /* variables */
   bool running;

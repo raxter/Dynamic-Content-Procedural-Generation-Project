@@ -1,5 +1,5 @@
-#ifndef __PROCGEN_GUI_GLDISPLAY_H__
-#define __PROCGEN_GUI_GLDISPLAY_H__
+#ifndef __PROCGEN_GAMECOMPONENT_GLDISPLAY_H__
+#define __PROCGEN_GAMECOMPONENT_GLDISPLAY_H__
 
 
 #include <QGLWidget>
@@ -9,7 +9,7 @@
 
 namespace ProcGen {
 
-namespace GUI {
+namespace GameComponent {
 
   
 class GLDisplay : public AbstractGameComponent::Display {
@@ -44,7 +44,7 @@ class GLDisplay : public AbstractGameComponent::Display {
 
 };
 
-} /* end of namespace GUI */
+} /* end of namespace GameComponent */
 
 } /* end of namespace ProcGen */
 

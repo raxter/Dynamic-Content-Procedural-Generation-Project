@@ -1,12 +1,12 @@
-#ifndef __PROCGEN_GUI_GLDISPLAYWIDGET_H__
-#define __PROCGEN_GUI_GLDISPLAYWIDGET_H__
+#ifndef __PROCGEN_GAMECOMPONENT_GLDISPLAYWIDGET_H__
+#define __PROCGEN_GAMECOMPONENT_GLDISPLAYWIDGET_H__
 
 
 #include <QGLWidget>
 
 namespace ProcGen {
 
-namespace GUI {
+namespace GameComponent {
 
   
 class GLDisplayWidget : public QGLWidget {
@@ -21,16 +21,22 @@ class GLDisplayWidget : public QGLWidget {
   signals:
   
   void sendingContext();
+  
+  void mouseMoved(const QPoint& pos);
 
   public: /* over-ridden methods */
   
+  /* from QGLWidget */
   void initializeGL();
   void paintGL();
   void resizeGL ( int width, int height );
+  
+  /* from QWidget */
+  void mouseMoveEvent ( QMouseEvent * event );
 
 };
 
-} /* end of namespace GUI */
+} /* end of namespace GameComponent */
 
 } /* end of namespace ProcGen */
 

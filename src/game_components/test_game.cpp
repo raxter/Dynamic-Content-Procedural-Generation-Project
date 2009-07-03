@@ -7,7 +7,7 @@
 
 namespace ProcGen {
 
-namespace Game {
+namespace GameComponent {
 
   
 
@@ -70,12 +70,14 @@ void TestGame::renderStep(void * pntr)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
-  glRotated(45, 0,0,1);
+  //glTranslated(300,300,0);
+  glRotated(45, 1,0,0);
+  glRotated(45, 0,1,0);
 
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
   
   {
-    glColor3f(0.0,0.0,1.0);
+    /*glColor3f(0.0,0.0,1.0);
     QVector<double> points;
     points.append(  0.1); points.append(  0.1); points.append(0.5);
     
@@ -85,12 +87,14 @@ void TestGame::renderStep(void * pntr)
     
     points.append(  0.1); points.append( 100); points.append(0.5);
      
-    displayer->drawPolygon(points);
+    displayer->drawPolygon(points);*/
+    displayer->drawCube(0,0,0,0,0,0);
+    
   }
 }
 
 
-} /* end of namespace Game */
+} /* end of namespace GameComponent */
 
 } /* end of namespace ProcGen */
 

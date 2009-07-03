@@ -1,5 +1,5 @@
-#ifndef __GAME_TEST_H__
-#define __GAME_TEST_H__
+#ifndef __PROCGEN_GAMECOMPONENT_TESTGAME_H__
+#define __PROCGEN_GAMECOMPONENT_TESTGAME_H__
 
 #include <QGLContext>
 
@@ -7,7 +7,7 @@
 
 namespace ProcGen {
 
-namespace Game {
+namespace GameComponent {
 
   
 class TestGame : public AbstractGameComponent::Game {
@@ -31,7 +31,7 @@ class TestGame : public AbstractGameComponent::Game {
   
 };
 
-} /* end of namespace Game */
+} /* end of namespace GameComponent */
 
 } /* end of namespace ProcGen */
 

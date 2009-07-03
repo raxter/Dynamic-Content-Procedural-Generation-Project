@@ -12,6 +12,7 @@
 
 #include "ui_proc_gen_test_bed.h"
 
+#include "game_components/control_interface.h"
 #include "game_components/gl_display.h"
 #include "game_components/test_game.h"
 #include "abstract_game_components/runner.h"
@@ -33,9 +34,11 @@ class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
   private: /* variables */
 
   QApplication &application;
-  GLDisplayWidget* glDisplayWidget;
-  GLDisplay* glDisplay;
-  Game::TestGame* testGame;
+  GameComponent::GLDisplayWidget* glDisplayWidget;
+  GameComponent::GLDisplay* glDisplay;
+  GameComponent::TestGame* testGame;
+  GameComponent::ControlInterface* controlInterface;
+  
   AbstractGameComponent::Runner* gameRunner;
 };
 

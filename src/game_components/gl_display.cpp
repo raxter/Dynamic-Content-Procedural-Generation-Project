@@ -4,7 +4,7 @@
 
 namespace ProcGen {
 
-namespace GUI {
+namespace GameComponent {
 
   
 /****************************************************************************
@@ -78,6 +78,34 @@ void GLDisplay::cleanupRenderStep()
 ****************************************************************************/
 void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, double sz)
 {
+  glPushMatrix();
+  
+  glScaled(100,100,100);
+  glBegin(GL_QUADS);
+  for (int i = 0 ; i < 2 ; i++) {
+    double unit = (i*2)-1;
+    
+    glColor3d(1.0, 0.0, 0.0);
+    glVertex3d( unit,  1.0,  1.0);
+    glVertex3d( unit,  1.0, -1.0);
+    glVertex3d( unit, -1.0, -1.0);
+    glVertex3d( unit, -1.0,  1.0);
+    
+    glColor3d(0.0, 1.0, 0.0);
+    glVertex3d(  1.0, unit,  1.0);
+    glVertex3d(  1.0, unit, -1.0);
+    glVertex3d( -1.0, unit, -1.0);
+    glVertex3d( -1.0, unit,  1.0);
+    
+    glColor3d(0.0, 0.0, 1.0);
+    glVertex3d(  1.0,  1.0, unit);
+    glVertex3d(  1.0, -1.0, unit);
+    glVertex3d( -1.0, -1.0, unit);
+    glVertex3d( -1.0,  1.0, unit);
+  }
+  glEnd();
+  
+  glPopMatrix();
 }
 
 /****************************************************************************
@@ -111,7 +139,7 @@ void GLDisplay::drawPolygon(const QVector<double>& points)
 
 
   
-} /* end of namespace GUI */
+} /* end of namespace GameComponent */
 
 } /* end of namespace ProcGen */
 

@@ -12,7 +12,7 @@ namespace AbstractGameComponent {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-Runner::Runner(Game& gameCore, Display& displayer)
+Runner::Runner(Game& gameCore, Display& displayer, ControlInterface& controlInterface) : controlInterface(controlInterface)
 {
   gameCore.setDisplayer(&displayer);
   
@@ -23,6 +23,8 @@ Runner::Runner(Game& gameCore, Display& displayer)
   
   connect(this, SIGNAL(doRenderStep()), &displayer, SLOT(requestReady()));
   connect(&displayer, SIGNAL(ready()), &gameCore, SLOT(renderStep()));
+  
+  connect(this, SIGNAL(doEventStep()), &controlInterface, SLOT(eventStep()));
   
   //TODO, implement this
   //connect(&displayer, SIGNAL(displayInitialized()), this, SLOT(displayerInitialized()));
@@ -92,6 +94,7 @@ void Runner::run()
   
   for (int i = 0 ; i < 10000 ; i++) {
     qDebug() << "step " << i;
+    emit doEventStep();
     emit doLogicStep();
     emit doRenderStep();
     usleep(500000);

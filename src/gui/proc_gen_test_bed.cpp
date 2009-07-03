@@ -24,13 +24,16 @@ ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), appli
 {
   setupUi(this);
   
-  glDisplayWidget = new GLDisplayWidget();
+  glDisplayWidget = new GameComponent::GLDisplayWidget();
   this->setCentralWidget(glDisplayWidget);
   
-  glDisplay = new GLDisplay(*glDisplayWidget);
+  glDisplay = new GameComponent::GLDisplay(*glDisplayWidget);
   
-  testGame = new Game::TestGame();
-  gameRunner = new AbstractGameComponent::Runner(*testGame, *glDisplay);
+  testGame = new GameComponent::TestGame();
+  
+  controlInterface = new GameComponent::ControlInterface(glDisplayWidget);
+  
+  gameRunner = new AbstractGameComponent::Runner(*testGame, *glDisplay, *controlInterface);
   
   gameRunner->runGame();
 }

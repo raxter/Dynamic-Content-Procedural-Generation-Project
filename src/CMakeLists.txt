@@ -18,10 +18,12 @@ SET(PROC_GEN_SRCS_CXX
   game_components/test_game.cpp
   game_components/gl_display.cpp
   game_components/gl_display_widget.cpp
+  game_components/control_interface.cpp
   
   abstract_game_components/display.cpp
   abstract_game_components/game.cpp
   abstract_game_components/runner.cpp
+  abstract_game_components/control_interface.cpp
   
 
   main.cpp
@@ -35,10 +37,12 @@ SET(PROC_GEN_MOC_SRCS
   game_components/test_game.h
   game_components/gl_display.h
   game_components/gl_display_widget.h
+  game_components/control_interface.h
   
   abstract_game_components/display.h
   abstract_game_components/game.h
   abstract_game_components/runner.h
+  abstract_game_components/control_interface.h
 )
 
 SET(PROC_GEN_UI
