@@ -16,7 +16,7 @@ namespace GameComponent {
 ****************************************************************************/
 GLDisplay::GLDisplay(GLDisplayWidget& glDisplayWidget) : glDisplayWidget(glDisplayWidget)
 {
-  connect (&glDisplayWidget, SIGNAL (sendingContext()), this, SIGNAL(ready()));
+  connect (&glDisplayWidget, SIGNAL (sendingContext( )), this, SLOT(sendReady()));
 }
 
 
@@ -38,6 +38,15 @@ GLDisplay::~GLDisplay()
 ****************************************************************************/
 void GLDisplay::requestReady() {
   glDisplayWidget.updateGL ();
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplay::sendReady() {
+  ready(*this);
 }
 
 
@@ -76,7 +85,7 @@ void GLDisplay::cleanupRenderStep()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, double sz)
+void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const
 {
   glPushMatrix();
   
@@ -113,7 +122,7 @@ void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, 
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::drawPolygon(const QVector<double>& points)
+void GLDisplay::drawPolygon(const QVector<double>& points) const
 {
   //qDebug() << "currentContext: " << QGLContext::currentContext ();
   //qDebug() << "drawPolygon - " << points;
@@ -130,7 +139,17 @@ void GLDisplay::drawPolygon(const QVector<double>& points)
   
 }
 
-  
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+** This function might change
+**
+****************************************************************************/
+void GLDisplay::drawText2D(int x, int y, const QString & str, const QFont & fnt, int listBase) const
+{
+  glDisplayWidget.renderText(x, y, str, fnt, listBase);
+}
 
 
 

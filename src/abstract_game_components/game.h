@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "display.h"
+#include "control_interface.h"
 
 namespace ProcGen {
 
@@ -21,15 +22,10 @@ class Game : public QObject {
   
   public slots: /* virtual */
 
-  virtual void initStep(void * pntr = 0);
-  virtual void logicStep(void * pntr = 0);
-  virtual void renderStep(void * pntr = 0);
+  virtual void initStep();
+  virtual void logicStep(const ControlInterface& controlInterface);
+  virtual void renderStep(const Display& displayer);
 
-  public: /* methods */
-  void setDisplayer(Display* displayer);
-
-  protected: /* variables */
-  Display* displayer;
 };
 
 } /* end of namespace AbstractGameComponent */

@@ -18,14 +18,24 @@ class ControlInterface : public QObject {
   ControlInterface();
   virtual ~ControlInterface();
   
+  signals:
+  void ready( const ControlInterface& );
+  
+  public slots:
+  void requestReady();
+  
   public: /* methods */
   
   virtual void eventStep() = 0;
   
   virtual QPoint getMousePosition() const = 0;
+  virtual QPoint getMouseMovement() const = 0;
   
   virtual bool isKeyDown(int keyCode) const = 0;
   virtual bool isKeyTapped(int keyCode) const = 0;
+  
+  virtual bool isMouseDown(int mouseButtonCode) const = 0;
+  virtual bool isMouseTapped(int mouseButtonCode) const = 0;
   
   
 };

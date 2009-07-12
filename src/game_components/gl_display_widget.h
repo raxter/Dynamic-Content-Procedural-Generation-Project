@@ -23,6 +23,8 @@ class GLDisplayWidget : public QGLWidget {
   void sendingContext();
   
   void mouseMoved(const QPoint& pos);
+  void keyEvent(int key, bool keyDown);
+  void mouseEvent(int button, bool buttonDown);
 
   public: /* over-ridden methods */
   
@@ -33,6 +35,11 @@ class GLDisplayWidget : public QGLWidget {
   
   /* from QWidget */
   void mouseMoveEvent ( QMouseEvent * event );
+  void wheelEvent ( QWheelEvent * event );
+  void keyPressEvent ( QKeyEvent * event );
+  void keyReleaseEvent ( QKeyEvent * event );
+  void mousePressEvent ( QMouseEvent * event );
+  void mouseReleaseEvent ( QMouseEvent * event );
 
 };
 

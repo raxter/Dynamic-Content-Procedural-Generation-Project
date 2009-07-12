@@ -33,7 +33,7 @@ Display::~Display()
 ****************************************************************************/
 void Display::requestReady() {
   qDebug() << "Display::requestReady";
-  emit ready();
+  emit ready(*this);
 }
 
   
@@ -60,7 +60,7 @@ void Display::cleanupRenderStep()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::drawCube(double cx, double cy, double cz, double sx, double sy, double sz)
+void Display::drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const
 {
 }
 
@@ -69,7 +69,7 @@ void Display::drawCube(double cx, double cy, double cz, double sx, double sy, do
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::drawPolygon(const QVector<double>& points)
+void Display::drawPolygon(const QVector<double>& points) const
 {
 }
 

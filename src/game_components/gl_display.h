@@ -22,10 +22,13 @@ class GLDisplay : public AbstractGameComponent::Display {
   ~GLDisplay();
 
   signals: /* over-ridden */
-  void ready();
+  void ready( const Display& );
 
   public slots: /* over-ridden */
   void requestReady();
+  
+  public slots:
+  void sendReady();
 
   public: /* over-ridden methods */
   
@@ -34,8 +37,9 @@ class GLDisplay : public AbstractGameComponent::Display {
   void initRenderStep();
   void cleanupRenderStep();
   
-  void drawCube(double cx, double cy, double cz, double sx, double sy, double sz);
-  void drawPolygon(const QVector<double>& points);
+  void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const;
+  void drawPolygon(const QVector<double>& points) const;
+  void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const;
   //void drawMesh, etc
 
   private: /* variabels */

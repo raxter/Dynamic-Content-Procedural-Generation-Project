@@ -2,6 +2,7 @@
 #define __PROCGEN_ABSTRACTGAMECOMPONENT_DISPLAY_H__
 
 #include <QVector>
+#include <QFont>
 #include <QObject>
 
 namespace ProcGen {
@@ -20,8 +21,7 @@ class Display : public QObject {
   
   /* Overload these signals!*/
   signals:
-  //void displayInitialized();
-  void ready();
+  void ready( const Display& );
   
   public slots:
   void requestReady();
@@ -32,10 +32,11 @@ class Display : public QObject {
   
   virtual void initRenderStep() = 0;
   
-  virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) = 0;
+  virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const = 0;
   
-  virtual void drawPolygon(const QVector<double>& points) = 0;
+  virtual void drawPolygon(const QVector<double>& points) const = 0;
   
+  virtual void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const = 0;
   //void drawMesh, etc
   
   virtual void cleanupRenderStep() = 0;

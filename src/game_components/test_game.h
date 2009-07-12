@@ -21,13 +21,19 @@ class TestGame : public AbstractGameComponent::Game {
   
   public slots: /* over-ridden */
 
-  void initStep(void * pntr = 0);
-  void logicStep(void * pntr = 0);
-  void renderStep(void * pntr = 0);
+  void initStep();
+  void logicStep(const AbstractGameComponent::ControlInterface& controlInterface);
+  void renderStep(const AbstractGameComponent::Display& displayer);
   
   private:
   
+  enum KeyDirection {Fore = 1, Back = 2, Left = 4, Rght = 8};
+  double directionOffset [16];
+  
   int framecount;
+  
+  double x, y, z, pitch, yaw;
+  QPoint mousePos, mouseMove;
   
 };
 

@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QMouseEvent>
+#include <QKeyEvent>
 
 namespace ProcGen {
 
@@ -18,6 +19,7 @@ namespace GameComponent {
 GLDisplayWidget::GLDisplayWidget(QWidget* parent) : QGLWidget(parent)
 {
   setMouseTracking ( true );
+  grabKeyboard ();
 }
 
 
@@ -28,7 +30,7 @@ GLDisplayWidget::GLDisplayWidget(QWidget* parent) : QGLWidget(parent)
 ****************************************************************************/
 GLDisplayWidget::~GLDisplayWidget()
 {
-
+  releaseKeyboard ();
 }
 
 
@@ -71,8 +73,8 @@ void GLDisplayWidget::resizeGL ( int width, int height ) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glViewport(0, 0, width, height);
-  glOrtho(	0, width, height, 0, -10000, 10000);
-  gluPerspective( 45/*GLdouble	fovy*/,
+  //glOrtho(	0, width, height, 0, -10000, 10000);
+  gluPerspective( 75/*GLdouble	fovy*/,
 			            1/*GLdouble	aspect*/,
 			            0.1/*GLdouble	zNear*/,
 			            10000/*GLdouble	zFar*/ );
@@ -87,6 +89,53 @@ void GLDisplayWidget::resizeGL ( int width, int height ) {
 ****************************************************************************/
 void GLDisplayWidget::mouseMoveEvent ( QMouseEvent * event ) {
   emit mouseMoved(event->pos ());
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
+
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
+  emit mouseEvent(event->button (), true);
+}
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
+  emit mouseEvent(event->button (), false);
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
+  //qDebug() << "keyPressEvent";
+  if (!event->isAutoRepeat () )
+    emit keyEvent(event->key (), true);
+}
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::keyReleaseEvent ( QKeyEvent * event ) {
+  //qDebug() << "keyReleaseEvent";
+  if (!event->isAutoRepeat ())
+    emit keyEvent(event->key (), false);
 }
   
 } /* end of namespace GameComponent */

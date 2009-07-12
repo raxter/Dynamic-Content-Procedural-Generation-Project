@@ -4,8 +4,8 @@
 #include <QThread>
 
 #include "game.h"
-#include "display.h"
 #include "control_interface.h"
+#include "display.h"
 
 namespace ProcGen {
 
@@ -17,7 +17,7 @@ class Runner : public QThread {
   
   public: /* class specific */
 
-  Runner(Game& gameCore, Display& displayer, ControlInterface& controlInterface);
+  Runner(Game& gameCore, Display& displayer, const ControlInterface& controlInterface);
   ~Runner();
   
   public slots:
@@ -40,9 +40,6 @@ class Runner : public QThread {
   
   void normalQuit();
   void forceQuit();
-  
-  protected: /* variables */
-  const ControlInterface& controlInterface;
   
   private: /* variables */
   bool running;

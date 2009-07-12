@@ -28,24 +28,13 @@ Game::~Game()
 {
 
 }
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Game::setDisplayer(Display* displayer)
-{
-  this->displayer = displayer;
-}
-  
   
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Game::initStep(void * pntr)
+void Game::initStep()
 {
 
 }
@@ -56,9 +45,9 @@ void Game::initStep(void * pntr)
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Game::logicStep(void * pntr)
+void Game::logicStep(const ControlInterface& controlInterface)
 {
-
+  qDebug() << "Game::logicStep";
 }
 
 
@@ -67,9 +56,9 @@ void Game::logicStep(void * pntr)
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Game::renderStep(void * pntr)
+void Game::renderStep(const Display& displayer )
 {
-
+  qDebug() << "Game::renderStep";
 }
 
 } /* end of namespace AbstractGameComponent */
