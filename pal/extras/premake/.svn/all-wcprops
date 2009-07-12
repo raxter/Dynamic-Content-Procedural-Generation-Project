@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/pal/!svn/ver/143/pal/extras/premake
+END
+premake_template.lua
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/pal/!svn/ver/143/pal/extras/premake/premake_template.lua
+END
+premake_generic.lua
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/pal/!svn/ver/143/pal/extras/premake/premake_generic.lua
+END
+configure.exe
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/pal/!svn/ver/143/pal/extras/premake/configure.exe
+END
+INSTALL.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/pal/!svn/ver/143/pal/extras/premake/INSTALL.txt
+END
+premake.exe
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/pal/!svn/ver/143/pal/extras/premake/premake.exe
+END
+premake.lua
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/pal/!svn/ver/143/pal/extras/premake/premake.lua
+END

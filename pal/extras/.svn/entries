@@ -1,0 +1,55 @@
+8
+
+dir
+196
+https://pal.svn.sourceforge.net/svnroot/pal/pal/extras
+https://pal.svn.sourceforge.net/svnroot/pal
+
+
+
+2009-06-12T04:11:27.558891Z
+192
+edrumwri
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+99ea70e1-9a43-0410-b3df-a6f06dae6e96
+
+framework_tests
+dir
+
+configure
+dir
+
+premake
+dir
+
+COLLADA_standalone
+dir
+
+Scythe_standalone
+dir
+
+CMakeLists.txt
+file
+
+
+
+
+2009-07-12T05:50:52.000000Z
+f7b7f657900b1fe85c990d4c6be98e13
+2009-04-09T20:11:42.348706Z
+154
+Sukender
+

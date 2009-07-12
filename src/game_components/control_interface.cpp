@@ -92,7 +92,7 @@ void ControlInterface::incomingMouseButtonEvent(int mouseCode, bool isMouseButto
 **
 ****************************************************************************/
 void ControlInterface::eventStep() {
-  qDebug() << "ControlInterface::eventStep";
+  //qDebug() << "ControlInterface::eventStep";
 
   /* mouse movement events */
   mousePosition = currentMousePosition;

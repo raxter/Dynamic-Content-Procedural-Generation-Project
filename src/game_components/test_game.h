@@ -3,6 +3,8 @@
 
 #include <QGLContext>
 
+#include "pal/pal/palFactory.h"
+
 #include "abstract_game_components/game.h"
 
 namespace ProcGen {
@@ -34,6 +36,12 @@ class TestGame : public AbstractGameComponent::Game {
   
   double x, y, z, pitch, yaw;
   QPoint mousePos, mouseMove;
+  
+  
+	palPhysics *pp;
+	
+	palTerrainPlane *pt;
+	palBox *pb;
   
 };
 

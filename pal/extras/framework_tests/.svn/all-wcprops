@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/pal/!svn/ver/167/pal/extras/framework_tests
+END
+go_macosx
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/pal/!svn/ver/162/pal/extras/framework_tests/go_macosx
+END
+framework.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/pal/!svn/ver/164/pal/extras/framework_tests/framework.h
+END
+shared_group.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/pal/!svn/ver/163/pal/extras/framework_tests/shared_group.cpp
+END
+go_linux
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/pal/!svn/ver/166/pal/extras/framework_tests/go_linux
+END
+shared_group.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/pal/!svn/ver/160/pal/extras/framework_tests/shared_group.vcproj
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/pal/!svn/ver/167/pal/extras/framework_tests/main.cpp
+END
+main.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/pal/!svn/ver/160/pal/extras/framework_tests/main.vcproj
+END
+shared.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/pal/!svn/ver/160/pal/extras/framework_tests/shared.vcproj
+END
+shared_single.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/pal/!svn/ver/165/pal/extras/framework_tests/shared_single.cpp
+END
+abstract.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/pal/!svn/ver/164/pal/extras/framework_tests/abstract.h
+END
+framework_tests.sln
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/pal/!svn/ver/160/pal/extras/framework_tests/framework_tests.sln
+END

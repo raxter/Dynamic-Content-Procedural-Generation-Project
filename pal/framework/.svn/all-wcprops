@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svnroot/pal/!svn/ver/186/pal/framework
+END
+osfs.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/pal/!svn/ver/20/pal/framework/osfs.h
+END
+statusobject.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/pal/!svn/ver/1/pal/framework/statusobject.h
+END
+errorlog.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/pal/!svn/ver/164/pal/framework/errorlog.h
+END
+managedmemoryobject.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/pal/!svn/ver/20/pal/framework/managedmemoryobject.h
+END
+factoryconfig.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/pal/!svn/ver/161/pal/framework/factoryconfig.h
+END
+empty.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/pal/!svn/ver/1/pal/framework/empty.h
+END
+statuscode.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/pal/!svn/ver/1/pal/framework/statuscode.h
+END
+os.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/pal/!svn/ver/186/pal/framework/os.h
+END
+osfs.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/pal/!svn/ver/20/pal/framework/osfs.cpp
+END
+statusobject.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/pal/!svn/ver/1/pal/framework/statusobject.cpp
+END
+errorlog.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/pal/!svn/ver/165/pal/framework/errorlog.cpp
+END
+factory.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/pal/!svn/ver/163/pal/framework/factory.h
+END
+common.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/pal/!svn/ver/20/pal/framework/common.h
+END
+factoryconfig.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/pal/!svn/ver/172/pal/framework/factoryconfig.cpp
+END

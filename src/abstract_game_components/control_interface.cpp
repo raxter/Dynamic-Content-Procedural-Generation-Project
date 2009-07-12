@@ -35,7 +35,7 @@ ControlInterface::~ControlInterface() {
 **
 ****************************************************************************/
 void ControlInterface::requestReady() {
-  qDebug() << "ControlInterface::requestReady";
+  //qDebug() << "ControlInterface::requestReady";
   emit ready(*this);
 }
 

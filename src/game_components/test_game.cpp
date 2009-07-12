@@ -51,7 +51,9 @@ TestGame::TestGame() : AbstractGameComponent::Game(), framecount(0)
 ****************************************************************************/
 TestGame::~TestGame()
 {
-
+  //TODO move to (non-existant) cleanUpStep()	
+  PF->Cleanup(); //we are done with the physics. clean up.
+  delete pp;
 }
 
 
@@ -65,6 +67,22 @@ void TestGame::initStep()
   qDebug() << "TestGame::initStep";
   
   x = 0; y = 0; z = 0;
+  
+  PF->LoadPALfromDLL(); 
+  
+  PF->SelectEngine("Bullet"); //"Bullet" is the name of the engine you wish to use. eg:"Bullet"
+	pp = PF->CreatePhysics(); //create the main physics class
+  if (pp == NULL) {
+		printf("Failed to create the physics engine. Check to see if you spelt the engine name correctly, and that the engine DLL is in the right location");
+	}
+	else {
+    pp->Init(0,-9.8f,0); //initialize it, set the main gravity vector
+	  pt= PF->CreateTerrainPlane(); //create the ground
+	  pt->Init(0,0,0,50.0f); //initialize it, set its location to 0,0,0 and minimum size to 50
+	  pb = PF->CreateBox(); //create a box
+	  pb->Init(0,5,0, 1,1,1, 1); //initialize it, set its location to 0,5,0 (five units up in the air), set dimensions to 1x1x1 and its mass to 1
+  }
+
 }
 
 
@@ -108,6 +126,10 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
     pitch += 0.03*mouseMove.y();
     yaw += 0.03*mouseMove.x();
   }
+  
+  
+  pp->Update(0.02f); //update the physics engine. advance the simulation time by 0.02
+
 }
 
 
@@ -121,7 +143,11 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 
   //qDebug() << "TestGame::renderStep";
   //qDebug() << displayer;
-  
+  palVector3 pos;
+  pb->GetPosition(pos); //get the location of the box
+
+  printf("Current box position is %6.5f at time %4.2f\n",pos.y,pp->GetTime());
+
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();

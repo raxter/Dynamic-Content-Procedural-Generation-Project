@@ -25,6 +25,7 @@ class Game : public QObject {
   virtual void initStep();
   virtual void logicStep(const ControlInterface& controlInterface);
   virtual void renderStep(const Display& displayer);
+  //TODO create cleanUpStep()
 
 };
 

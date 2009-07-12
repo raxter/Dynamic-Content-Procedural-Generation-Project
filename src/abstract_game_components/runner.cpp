@@ -94,7 +94,7 @@ void Runner::run()
   }
   
   for (int i = 0 ; i < 10000 ; i++) {
-    qDebug() << "step " << i;
+    //qDebug() << "step " << i;
     emit doEventStep();
     emit doLogicStep();
     emit doRenderStep();

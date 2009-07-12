@@ -1,0 +1,118 @@
+8
+
+dir
+196
+https://pal.svn.sourceforge.net/svnroot/pal/pal
+https://pal.svn.sourceforge.net/svnroot/pal
+
+
+
+2009-06-29T21:00:44.768626Z
+196
+Sukender
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+99ea70e1-9a43-0410-b3df-a6f06dae6e96
+
+paldemo
+dir
+
+Doxyfile
+file
+
+
+
+
+2009-07-12T05:50:56.000000Z
+6424563b418f6e00ec6e7c8da7ab7fe5
+2008-01-13T14:04:11.218994Z
+1
+adrianboeing
+
+INSTALL.txt
+file
+
+
+
+
+2009-07-12T05:50:56.000000Z
+2b9b1af4886070fe470ccfb9fa04f518
+2009-03-20T14:51:58.467570Z
+132
+Sukender
+
+pal_i
+dir
+
+example
+dir
+
+framework
+dir
+
+liscence.txt
+file
+
+
+
+
+2009-07-12T05:50:56.000000Z
+1d3021aa628dca553bd5d634c94f1ff3
+2008-01-13T14:04:11.218994Z
+1
+adrianboeing
+
+test_lib
+dir
+
+sdlgl
+dir
+
+extras
+dir
+
+documentation
+dir
+
+CMakeModules
+dir
+
+readme.txt
+file
+
+
+
+
+2009-07-12T05:50:56.000000Z
+3e603153ea9f7f53393b8fb4b0f33439
+2009-03-20T14:51:58.467570Z
+132
+Sukender
+
+pal
+dir
+
+CMakeLists.txt
+file
+
+
+
+
+2009-07-12T05:50:56.000000Z
+a9bccc5027533da57966c2337142428e
+2009-06-18T20:17:06.911874Z
+195
+legregius
+

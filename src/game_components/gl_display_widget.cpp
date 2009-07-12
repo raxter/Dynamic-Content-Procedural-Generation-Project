@@ -62,7 +62,6 @@ void GLDisplayWidget::initializeGL()
 **
 ****************************************************************************/
 void GLDisplayWidget::paintGL() {
-  qDebug() << "paintGL";
   emit sendingContext();
 }
 
