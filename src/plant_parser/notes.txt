@@ -1,0 +1,62 @@
+used flex for scanning and bison/bisonc++ for parsing
+
+need to include options for number of sentences to generate, how many iterations to do on each, an input file specifying options
+notes for arguments:
+-o OUTPUTFILE (default output)
+-n NUMBEROFSENTENCESTOGEN (default 1)
+-m MAXNUMOFITERATIONSTORUNWHENGENNING (default infinite (-1))
+
+so it's ./LParser [options] inputfile
+
+it's probably going to be possible to fool the generator into an infinite loop by having an impossible context to fufill and ensuring that the nonterminal related to that context is always in the current output word
+
+at some stage, go through the parser and add a verbose option to output warnings when it does stuff like ignoring parameters, and go into detail on everything it does.
+
+---------
+L-system:
+---------
+
+each segment is a string of characters (upper and lower case), eg: branch, split, Fork, A
+each may or may not be followed by a () containing either a value, or a simple formula using N for it's predecessor's value, eg (4), (4.5), (N / 2)
+the allowed operations are +,-,/,* (FIXME: parsing these formulas is going to be horrible. how will I do it?)
+The start symbol's associated info (if it has) *must* be a value (ie the start symbol cannot have a formula associated with it)
+The LHS symbol of a rule *cannot* have a value or formula associated with it.
+The symbols in the RHS of a rule can have either a value or a formula. If it has a formula, then the value of the LHS is used in calculating the formula's value (if the LHS has a value). If the LHS does not have a value, then any formulas on the RHS are ignored.
+The symbols in the context sensitive section of a rule *cannot* have values or formulas. Any value or formula added will be ignored.
+in formulas 'n' or 'N' (and *nothing* else) is used to represent the previous thing's value. Any unrecognized characters will simply be ignored
+
+the L-system consists of one or more rules (separated by a # symbol), followed by $ which precedes the starting character (which must be character from the set above)
+
+rules are of the form: character : < predecessor > successor % probability = results_of_what_character_turns_into % probability = 2nd set
+
+< and > are for predecessors and successors and are optional. It's < or > followed by what is needed
+
+% indicates that the next thing is the probability of the rule happening, this can be stacked multiple times as above
+
+[] is for pushing and popping the stack
+
+= is used to indicate what follows is the RHS of the rule
+
+everything must be white space separated
+
+so an example:
+
+
+a = b [ c ]
+
+#
+
+b : > e = d d(3)
+
+#
+
+c % 0.8 = e(4) % 0.2 = f
+
+#
+
+d : < c > f % 0.3 = e % 0.7 = f
+
+$
+
+a(9.5)
+
