@@ -43,7 +43,6 @@ class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
   AbstractGameComponent::Runner* gameRunner;
   
   
-  
   QThread *widgetsThread;
 };
 

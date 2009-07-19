@@ -15,6 +15,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 FIND_PACKAGE(Qt4 REQUIRED)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/external/Box2D/Include/)
+INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Physics/include)
+INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Foundation/include)
+INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Cooking/include)
+INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/PhysXLoader/include)
+INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/NxCharacter/include)
+
+add_definitions(-DLINUX)
 
 #ADD_LIBRARY(PAL_LIB SHARED ${CMAKE_SOURCE_DIR}/pal/lib/libpal.so)
 

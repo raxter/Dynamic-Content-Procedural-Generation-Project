@@ -82,6 +82,19 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
   launching = 0;
   spin_force = 0;
   
+  
+  gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION);
+  qDebug() << "gPhysicsSDK = " << gPhysicsSDK;
+  gPhysicsSDK->setParameter(NX_SKIN_WIDTH, 0.01); 
+  
+  NxSceneDesc sceneDesc;
+  sceneDesc.gravity.set(0.0f, -9.8f, 0.0f);
+  //sceneDesc.simType = NX_SIMULATION_SW; // Software mode
+  sceneDesc.simType = NX_SIMULATION_HW; // Hardware mode
+  
+  gScene = gPhysicsSDK->createScene(sceneDesc);
+  
+ /* 
 // Define the size of the world. Simulation will still work
 	// if bodies reach the end of the world, but it will be slower.
 	worldAABB = new b2AABB();
@@ -106,11 +119,18 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 	ball[0]->SetBullet (true);
 	ball[1] = createCircle(-1000, 10, 5, 1, 1);
 	ball[1]->SetBullet (true);
+	*/
 	
-  //backgroundTexture = QImage("../content/background.png");
-  //backgroundTextureId = displayer.bindTexture(backgroundTexture);
+  backgroundTexture = QImage("../content/background.png");
+  backgroundTextureId = displayer.bindTexture(backgroundTexture);
+  glBindTexture(GL_TEXTURE_2D, -1);
   
   qDebug() << "END TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+}
+
+void TestGame::cleanUpStep() {
+  gPhysicsSDK->releaseScene(*gScene);
+  gPhysicsSDK->release();
 }
 
 /****************************************************************************
@@ -118,7 +138,7 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-
+/*
 b2Body* TestGame::createCircle(float32 x, float32 y, float32 radius, float32 angle, float32 density) {
 
   // Define the dynamic body. We set its position and call the body factory.
@@ -153,7 +173,7 @@ b2Body* TestGame::createCircle(float32 x, float32 y, float32 radius, float32 ang
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-
+/*
 b2Body* TestGame::createBox(float32 x, float32 y, float32 width, float32 height, float32 angle, float32 density) {
 
   // Define the dynamic body. We set its position and call the body factory.
@@ -225,7 +245,7 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
   }
 
  
-  b2Vec2 diff =  (ball[0]->GetPosition() - ball[1]->GetPosition());
+  /*b2Vec2 diff =  (ball[0]->GetPosition() - ball[1]->GetPosition());
   ball_dist = diff.Length();
 	  
   //TODO make based on ball[0]->spin
@@ -262,15 +282,16 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
 	// in most game scenarios.
   
   float slowdown_affect = 100.0/ball_dist;
-  
+
 	float32 timeStep = 1.0f / 60.0f;
 	if (slowdown_affect*slowdown_affect > 16)
 	  timeStep /= 16;
 	else if (slowdown_affect > 1.0)
 	  timeStep /= slowdown_affect*slowdown_affect;
-	/*if (controlInterface.isKeyDown(Qt::Key_H)) {
-	  timeStep /= 8;
-	}*/
+	//if (controlInterface.isKeyDown(Qt::Key_H)) {
+	//  timeStep /= 8;
+	//}
+	
 	int32 velocityIterations = 8;
 	int32 positionIterations = 1;
 	
@@ -278,10 +299,16 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
   calculateOffsetAndZoom();
  
 	world->Step(timeStep, velocityIterations);
-	
+	  */
   //qDebug() << "ENDTestGame::logicStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+/*
 void TestGame::calculateOffsetAndZoom() {
 
   b2Vec2 avg = (ball[0]->GetPosition() + ball[1]->GetPosition());
@@ -299,7 +326,6 @@ void TestGame::calculateOffsetAndZoom() {
 ****************************************************************************/
 void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 {
-
   //qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   //qDebug() << "currentContext valid: " << QGLContext::currentContext ()->isValid();
 
@@ -330,9 +356,9 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   //qDebug() << cloudImage.width();
   
   
-  //glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
+  glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
   
-  glColor3d(1.0,0.0,0.0);
+  glColor3d(1.0,1.0,1.0);
   
   float size = 1000;
   glBegin(GL_QUADS);
@@ -345,7 +371,7 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
     }
   }
   glEnd();
-  //glBindTexture(GL_TEXTURE_2D, -1);
+  glBindTexture(GL_TEXTURE_2D, -1);
   
   displayer.drawCube();
   
@@ -361,16 +387,13 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   displayer.drawText2D(10,30, QString("Launching = ") + QString::number(launching), QFont());
   displayer.drawText2D(10,50, QString("Distance = ") + QString::number(ball_dist), QFont());
   displayer.drawText2D(10,70, QString("Distance^-1 = ") + QString::number(1.0/ball_dist*1000), QFont());
-  displayer.drawText2D(10,90, QString("Ang Vel = ") + QString::number(ball[0]->GetAngularVelocity()), QFont());
+  //displayer.drawText2D(10,90, QString("Ang Vel = ") + QString::number(ball[0]->GetAngularVelocity()), QFont());
   displayer.drawText2D(10,110, QString("spin_force = ") + QString::number(spin_force), QFont());
   displayer.drawText2D(10,130, QString("P,Y ") + QString::number(pitch) +", "+QString::number(yaw), QFont());
   displayer.drawText2D(10,150, QString("Pos ") + QString::number(x) +", "+QString::number(y) +", "+QString::number(z), QFont());
   
   
   //qDebug() << "END TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
-}
-
-void TestGame::cleanUpStep() {
 }
 
 } /* end of namespace GameComponent */

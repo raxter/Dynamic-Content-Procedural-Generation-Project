@@ -25,6 +25,7 @@ GLDisplayWidget::GLDisplayWidget(AbstractGameComponent::Game& gameCore, Abstract
 {
   setMouseTracking ( true );
   grabKeyboard ();
+  grabMouse ();
   
   connect(this, SIGNAL (pleaseDraw()), this, SLOT(updateGL()));
 }
@@ -38,6 +39,7 @@ GLDisplayWidget::GLDisplayWidget(AbstractGameComponent::Game& gameCore, Abstract
 GLDisplayWidget::~GLDisplayWidget()
 {
   releaseKeyboard ();
+  releaseMouse ();
 }
 
 
@@ -210,6 +212,7 @@ void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
+  qDebug() << "mousePressEvent" << " Thread: " << QThread::currentThread ();
   //emit mouseEvent(event->button (), true);
   controlInterface.incomingMouseButtonEvent(event->button (), true);
 }
@@ -220,6 +223,7 @@ void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
+  qDebug() << "mouseReleaseEvent" << " Thread: " << QThread::currentThread ();
   //emit mouseEvent(event->button (), false);
   controlInterface.incomingMouseButtonEvent(event->button (), false);
 }

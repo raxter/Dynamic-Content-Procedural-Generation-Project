@@ -132,7 +132,7 @@ void Runner::run()
       gameInterface.renderStep();                                                    
       render = false;                                                 
     }                                                                 
-    //usleep(1000);                                                     
+    usleep(20000);                                                     
     yieldCurrentThread ();                                          
                                                                       
                                                                       

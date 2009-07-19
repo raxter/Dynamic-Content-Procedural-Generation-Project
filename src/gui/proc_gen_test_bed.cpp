@@ -7,6 +7,8 @@
 
 #include "proc_gen_test_bed.h"
 
+#include <QDebug>
+
 namespace ProcGen {
 
 namespace GUI {
@@ -31,11 +33,14 @@ ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), appli
   controlInterface = new AbstractGameComponent::ControlInterface();
   
   glDisplayWidget = new GameComponent::GLDisplayWidget(*testGame, *glDisplay, *controlInterface);
+
   this->setCentralWidget(glDisplayWidget);
   
   glDisplay->setGLDisplayWidget(glDisplayWidget);
   
   gameRunner = new AbstractGameComponent::Runner(*glDisplayWidget);
+  
+//  inputGrabber = new GameComponent::InputGrabber();
   
   //widgetsThread = new QThread();
   //glDisplayWidget->moveToThread(widgetsThread);
@@ -57,6 +62,7 @@ ProcGenTestBed::~ProcGenTestBed() {
   delete glDisplay;
   delete testGame;
   delete gameRunner;
+  
 }
 
 

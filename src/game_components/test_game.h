@@ -9,6 +9,8 @@
 
 #include "Box2D.h"
 
+#include "NxPhysics.h"
+
 
 namespace ProcGen {
 
@@ -33,9 +35,9 @@ class TestGame : public AbstractGameComponent::Game {
   
   private: /* methods */
   
-  b2Body* createBox(float32 x, float32 y, float32 width, float32 height, float32 angle = 0, float32 density = 1);
-  b2Body* createCircle(float32 x, float32 y, float32 radius, float32 angle = 0, float32 density = 1);
-  void calculateOffsetAndZoom();
+  //b2Body* createBox(float32 x, float32 y, float32 width, float32 height, float32 angle = 0, float32 density = 1);
+  //b2Body* createCircle(float32 x, float32 y, float32 radius, float32 angle = 0, float32 density = 1);
+  //void calculateOffsetAndZoom();
   
   private:
   
@@ -47,13 +49,15 @@ class TestGame : public AbstractGameComponent::Game {
   double x,y,z,pitch,yaw,offx, offy, scale_zoom, display_width, display_height;
   QPoint mousePos, mouseMove;
   
+  NxPhysicsSDK* gPhysicsSDK;
+  NxScene* gScene;
+  
+  /*
   b2AABB *worldAABB;
-  
   b2World* world;
-  
   QVector<b2Body*> bodies;
-  
   b2Body *ball [2];
+  */
   
   int launching;
   float ball_dist;

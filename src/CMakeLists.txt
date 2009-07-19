@@ -65,5 +65,8 @@ QT4_WRAP_CPP(PROC_GEN_SRCS_CXX ${PROC_GEN_MOC_SRCS})
 #  TARGET_LINK_LIBRARIES(mxitc ${QT_LIBRARIES} ${QT_GIF_PLUGIN} ${QT_JPEG_PLUGIN})
 #ELSE()
   TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} ${CMAKE_SOURCE_DIR}/external/Box2D/Library/libBox2D.a)
+  TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} /usr/lib/PhysX/v2.8.1/libPhysXCore.so)
+  TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} /usr/lib/PhysX/v2.8.1/libNxCooking.so)
+  TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} /usr/lib/PhysX/v2.8.1/libNxCharacter.so)
 #ENDIF()
 
