@@ -88,7 +88,7 @@ void Display::drawBody(b2Body* body) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const
+void Display::drawCube() const
 {
 }
 

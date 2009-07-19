@@ -96,13 +96,50 @@ void Runner::run()
   }
   running = true;
   
-  while (running) {
+  /*while (running) {
     //qDebug() << "step " << i;
     //gameInterface.eventStep();
     gameInterface.logicStep();
     gameInterface.renderStep();
     usleep(50000);
-  }
+  }*/
+                                                                             
+  const int TICKS_PER_SECOND = 60;                                           
+  const int SKIP_TICKS = 1000000 / TICKS_PER_SECOND;                         
+  const int MAX_FRAMESKIP = 5;                                               
+
+  unsigned long long int next_game_tick = getTimeOfDay();
+  int loops;                                             
+  float interpolation;                                   
+
+  bool game_is_running = true;
+  while( game_is_running ) {  
+
+    bool render = false;
+    loops = 0;          
+    while( getTimeOfDay() > next_game_tick && loops < MAX_FRAMESKIP) {
+                                                                                       
+      gameInterface.logicStep();                                        
+                                                                        
+      render = true;                                                    
+
+      next_game_tick += SKIP_TICKS;
+      loops++;                     
+    }                              
+    //qDebug() << "OUTER " << getTimeOfDay() << ":" << next_game_tick;
+                                                                      
+    if (render) {   
+      gameInterface.renderStep();                                                    
+      render = false;                                                 
+    }                                                                 
+    //usleep(1000);                                                     
+    yieldCurrentThread ();                                          
+                                                                      
+                                                                      
+    //interpolation = float( getTimeOfDay() + SKIP_TICKS - next_game_tick )
+    //                / float( SKIP_TICKS );                               
+    //display_game( interpolation );                                       
+  }                                                  
   
   gameInterface.cleanUpStep();
 }
@@ -129,6 +166,16 @@ void Runner::forceQuit()
 {
   quit(); /* force closes the thread */
 }
+
+
+
+//==============================================================================
+unsigned long long int Runner::getTimeOfDay()
+{
+        gettimeofday(&tv,0);
+        return ((unsigned long long int)tv.tv_sec*1000000 + tv.tv_usec);
+}
+
 
 } /* end of namespace AbstractGameComponent */
 

@@ -48,10 +48,10 @@ class GLDisplayWidget : public QGLWidget, public AbstractGameComponent::GameInte
   //void paintEvent ( QPaintEvent * event );
   
   /* from QWidget */
-  /*void mouseMoveEvent ( QMouseEvent * event );
+  void mouseMoveEvent ( QMouseEvent * event );
   void wheelEvent ( QWheelEvent * event );
   void mousePressEvent ( QMouseEvent * event );
-  void mouseReleaseEvent ( QMouseEvent * event );*/
+  void mouseReleaseEvent ( QMouseEvent * event );
   void keyPressEvent ( QKeyEvent * event );
   void keyReleaseEvent ( QKeyEvent * event );
   

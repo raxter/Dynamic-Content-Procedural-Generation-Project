@@ -44,7 +44,7 @@ class TestGame : public AbstractGameComponent::Game {
   
   int framecount;
   
-  double offx, offy, scale_zoom, display_width, display_height;
+  double x,y,z,pitch,yaw,offx, offy, scale_zoom, display_width, display_height;
   QPoint mousePos, mouseMove;
   
   b2AABB *worldAABB;

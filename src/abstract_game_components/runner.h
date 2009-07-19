@@ -2,7 +2,8 @@
 #define __PROCGEN_ABSTRACTGAMECOMPONENT_RUNNER_H__
 
 #include <QThread>
-#include <QGLContext>
+#include <QGLContext>       
+#include <sys/time.h> 
 
 #include "game_interface.h"
 
@@ -36,6 +37,11 @@ class Runner : public QThread {
   bool running;
   
   GameInterface& gameInterface;
+  
+  
+  struct timeval tv;
+  unsigned long long int getTimeOfDay();
+
   
 };
 

@@ -33,7 +33,7 @@ class Display {
   
   virtual void drawBody(b2Body* body) const = 0;
   
-  virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const = 0;
+  virtual void drawCube() const = 0;
   
   virtual void drawPolygon(const QVector<double>& points) const = 0;
   

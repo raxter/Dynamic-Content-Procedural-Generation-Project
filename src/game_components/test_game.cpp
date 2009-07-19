@@ -78,6 +78,7 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 {
   qDebug() << "TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   
+  x = 0; y = 0; z = 0, pitch = 0, yaw = 0;
   launching = 0;
   spin_force = 0;
   
@@ -106,8 +107,8 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 	ball[1] = createCircle(-1000, 10, 5, 1, 1);
 	ball[1]->SetBullet (true);
 	
-  backgroundTexture = QImage("../content/background.png");
-  backgroundTextureId = displayer.bindTexture(backgroundTexture);
+  //backgroundTexture = QImage("../content/background.png");
+  //backgroundTextureId = displayer.bindTexture(backgroundTexture);
   
   qDebug() << "END TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
@@ -195,20 +196,37 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
   mousePos = controlInterface.getMousePosition();
   mouseMove = controlInterface.getMouseMovement();
   
-  b2Vec2 diff =  (ball[0]->GetPosition() - ball[1]->GetPosition());
-  ball_dist = diff.Length();
+
+  int directionCode = 0;
+  if (controlInterface.isKeyDown(Qt::Key_W))
+    directionCode |= Fore;
+  if (controlInterface.isKeyDown(Qt::Key_S))
+    directionCode |= Back;
+  if (controlInterface.isKeyDown(Qt::Key_A))
+    directionCode |= Left;
+  if (controlInterface.isKeyDown(Qt::Key_D))
+    directionCode |= Rght;
     
-  if (controlInterface.isMouseDown(Qt::LeftButton)) {
-    offy -= 0.03*mouseMove.y();
-    offx += 0.03*mouseMove.x();
+  if (directionCode){
+    qDebug() << directionCode << ":" << directionOffset[directionCode];
+    double directionToMove = yaw + directionOffset[directionCode];
+    x -= 0.1*sin(directionToMove);
+    y += 0.1*cos(directionToMove);
   }
   
-	if (controlInterface.isKeyDown(Qt::Key_D))
-	  spin_force -= 100;
-	if (controlInterface.isKeyDown(Qt::Key_A))
-	  spin_force += 100;
-	if (controlInterface.isKeyDown(Qt::Key_Space))
-	  spin_force = 0;
+  if  (controlInterface.isKeyDown(Qt::Key_Space))
+    z += 0.1;
+  if  (controlInterface.isKeyDown(Qt::Key_Shift))
+    z -= 0.1;
+    
+  if (controlInterface.isMouseDown(Qt::LeftButton)) {
+    pitch += 0.01*mouseMove.y();
+    yaw += 0.01*mouseMove.x();
+  }
+
+ 
+  b2Vec2 diff =  (ball[0]->GetPosition() - ball[1]->GetPosition());
+  ball_dist = diff.Length();
 	  
   //TODO make based on ball[0]->spin
 	
@@ -282,7 +300,8 @@ void TestGame::calculateOffsetAndZoom() {
 void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 {
 
-  //qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+  qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+  qDebug() << "currentContext valid: " << QGLContext::currentContext ()->isValid();
 
   //TODO there should be NO gl in this class
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
@@ -290,33 +309,47 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
-  glScaled(scale_zoom, scale_zoom, 0);
-  glTranslated(-offx, -offy, 0);
-  glTranslated((0.5*display_width)/scale_zoom,(0.5*display_height)/scale_zoom,0);
+  /*glColor3d(1.0,1.0,1.0);
+  glBegin(GL_QUADS);
+    glVertex2f(  0,0);
+    glVertex2f(10,0);
+    glVertex2f(10,10);
+    glVertex2f(  0,10);
+  glEnd();*/
+  glRotated(90.0/M_PI*180,1,0,0);
+  glRotated(pitch/M_PI*180, 1,0,0);
+  glRotated(-yaw/M_PI*180, 0,0,1);
+  glTranslated(x,y,z);
+  
+  //glScaled(scale_zoom, scale_zoom, 0);
+  //glTranslated(-offx, -offy, 0);
+  //glTranslated((0.5*display_width)/scale_zoom,(0.5*display_height)/scale_zoom,0);
   
   //qDebug() << "bind? " << glIsEnabled(GL_TEXTURE_2D);
   //qDebug() << QDir(".").absolutePath ();
   //qDebug() << cloudImage.width();
   
   
-  glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
+  //glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
   
-  glColor3d(1.0,1.0,1.0);
+  glColor3d(1.0,0.0,0.0);
   
   float size = 1000;
   glBegin(GL_QUADS);
   for (int i = -1 ; i <= 0 ; i++) {
     for (int j = -0 ; j <= 0 ; j++) {
-      glTexCoord2f(1,0); glVertex3f(size*(i),   size*(j),   1);
-      glTexCoord2f(1,1); glVertex3f(size*(i),   size*(j+1), 1);
-      glTexCoord2f(0,1); glVertex3f(size*(i+1), size*(j+1), 1);
-      glTexCoord2f(0,0); glVertex3f(size*(i+1), size*(j),   1);
+      glTexCoord2f(1,0); glVertex3f(size*(i),   size*(j),   -10);
+      glTexCoord2f(1,1); glVertex3f(size*(i),   size*(j+1), -10);
+      glTexCoord2f(0,1); glVertex3f(size*(i+1), size*(j+1), -10);
+      glTexCoord2f(0,0); glVertex3f(size*(i+1), size*(j),   -10);
     }
   }
   glEnd();
-  glBindTexture(GL_TEXTURE_2D, -1);
+  //glBindTexture(GL_TEXTURE_2D, -1);
   
+  displayer.drawCube();
   
+  glColor3d(1.0,1.0,1.0);
   Q_FOREACH(b2Body * body, bodies) {
     displayer.drawBody(body);
   }
@@ -330,6 +363,8 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   displayer.drawText2D(10,70, QString("Distance^-1 = ") + QString::number(1.0/ball_dist*1000), QFont());
   displayer.drawText2D(10,90, QString("Ang Vel = ") + QString::number(ball[0]->GetAngularVelocity()), QFont());
   displayer.drawText2D(10,110, QString("spin_force = ") + QString::number(spin_force), QFont());
+  displayer.drawText2D(10,130, QString("P,Y ") + QString::number(pitch) +", "+QString::number(yaw), QFont());
+  displayer.drawText2D(10,150, QString("Pos ") + QString::number(x) +", "+QString::number(y) +", "+QString::number(z), QFont());
   
   
   //qDebug() << "END TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();

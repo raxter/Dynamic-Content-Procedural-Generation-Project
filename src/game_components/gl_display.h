@@ -35,7 +35,7 @@ class GLDisplay : public AbstractGameComponent::Display {
   unsigned int bindTexture(const QImage& image) const;
   
   void drawBody(b2Body* body) const;
-  void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const;
+  void drawCube() const;
   
   void drawPolygon(const QVector<double>& points) const;
   void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const;

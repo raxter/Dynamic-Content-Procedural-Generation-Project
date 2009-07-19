@@ -190,35 +190,39 @@ void GLDisplayWidget::resizeGL ( int width, int height ) {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-/*void GLDisplayWidget::mouseMoveEvent ( QMouseEvent * event ) {
-  emit mouseMoved(event->pos ());
-}*/
+void GLDisplayWidget::mouseMoveEvent ( QMouseEvent * event ) {
+  //emit mouseMoved(event->pos ());
+  controlInterface.incomingMousePosition(event->pos ());
+}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-/*void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
+void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
 
-}*
+}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-/*void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
-  emit mouseEvent(event->button (), true);
-}*/
+void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
+  //emit mouseEvent(event->button (), true);
+  controlInterface.incomingMouseButtonEvent(event->button (), true);
+}
+
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-/*void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
-  emit mouseEvent(event->button (), false);
-}*/
+void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
+  //emit mouseEvent(event->button (), false);
+  controlInterface.incomingMouseButtonEvent(event->button (), false);
+}
 
 /****************************************************************************
 **
@@ -228,7 +232,7 @@ void GLDisplayWidget::resizeGL ( int width, int height ) {
 void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
   qDebug() << "keyPressEvent";
   if (!event->isAutoRepeat () ) {
-    emit keyEvent(event->key (), true);
+    //emit keyEvent(event->key (), true);
     controlInterface.incomingKeyEvent(event->key (), true);
   }
 }
@@ -240,7 +244,7 @@ void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
 void GLDisplayWidget::keyReleaseEvent ( QKeyEvent * event ) {
   qDebug() << "keyReleaseEvent";
   if (!event->isAutoRepeat ()) {
-    emit keyEvent(event->key (), false);
+    //emit keyEvent(event->key (), false);
     controlInterface.incomingKeyEvent(event->key (), false);
   }
 }

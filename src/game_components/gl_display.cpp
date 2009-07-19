@@ -54,11 +54,11 @@ void GLDisplay::resize(int width, int height)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glViewport(0, 0, width, height);
-  glOrtho(	0, width/10, 0, height/10, -100, 100);
-  //gluPerspective( 75/*GLdouble	fovy*/,
-	//		            1/*GLdouble	aspect*/,
-	//		            0.1/*GLdouble	zNear*/,
-	//		            10000/*GLdouble	zFar*/ );
+  //glOrtho(	0, width, 0, height, -100, 100);
+  gluPerspective( 75/*GLdouble	fovy*/,
+			            1/*GLdouble	aspect*/,
+			            0.1/*GLdouble	zNear*/,
+			            10000/*GLdouble	zFar*/ );
 
   glMatrixMode(GL_MODELVIEW);
 }
@@ -74,6 +74,8 @@ void GLDisplay::initialize() {
   glClearColor(0.0, 0.0, 0.0, 0.0);
 
   glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LEQUAL);
+  glEnable(GL_TEXTURE_2D);
   
   glMatrixMode(GL_MODELVIEW);
   qDebug() << "END GLDisplay::initialize" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
@@ -110,7 +112,7 @@ void GLDisplay::cleanupRenderStep()
 unsigned int  GLDisplay::bindTexture(const QImage& image) const {
   qDebug() << "GLDisplay::bindTexture";
   qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
-  return glDisplayWidget->bindTexture(image);
+  return glDisplayWidget->bindTexture(QGLWidget::convertToGLFormat(image));
 }
 
 /****************************************************************************
@@ -131,9 +133,9 @@ void GLDisplay::drawBody(b2Body* body) const {
     
     glRotatef(body->GetAngle()*180/M_PI,0,0,1);
       
-    glBegin(GL_LINE_STRIP);
     //polygon
     if (shape->GetType ()) {
+      glBegin(GL_LINE_LOOP);
       b2PolygonShape* poly = (b2PolygonShape*)shape;
       const b2Vec2* vertexArray = poly->GetVertices ();
       for (int i = 0 ; i < poly->GetVertexCount() ; i++)
@@ -141,6 +143,7 @@ void GLDisplay::drawBody(b2Body* body) const {
     }
     //circle
     else {
+      glBegin(GL_LINE_STRIP);
       b2CircleShape* circ = (b2CircleShape*)shape;
       for (int i = 0 ; i < 17 ; i++)
         glVertex2f(circ->GetRadius ()*sin(M_PI*2*i/16), circ->GetRadius ()*cos(M_PI*2*i/16));
@@ -161,7 +164,7 @@ void GLDisplay::drawBody(b2Body* body) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const
+void GLDisplay::drawCube() const
 {
   glPushMatrix();
   
