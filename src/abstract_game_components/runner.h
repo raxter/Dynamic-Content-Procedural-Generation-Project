@@ -2,10 +2,9 @@
 #define __PROCGEN_ABSTRACTGAMECOMPONENT_RUNNER_H__
 
 #include <QThread>
+#include <QGLContext>
 
-#include "game.h"
-#include "control_interface.h"
-#include "display.h"
+#include "game_interface.h"
 
 namespace ProcGen {
 
@@ -17,22 +16,12 @@ class Runner : public QThread {
   
   public: /* class specific */
 
-  Runner(Game& gameCore, Display& displayer, const ControlInterface& controlInterface);
+  Runner(GameInterface& gameInterface);
   ~Runner();
-  
-  public slots:
 
+  public: /* methods */
+  
   void runGame();
-  void displayerInitialized();
-  
-  signals:
-  
-  void doInitStep();
-  void doEventStep();
-  void doLogicStep();
-  void doRenderStep();
-  
-  void requestDisplayInitializationSignal();
   
   private: /* methods */
   void start();
@@ -42,7 +31,11 @@ class Runner : public QThread {
   void forceQuit();
   
   private: /* variables */
+  
+  
   bool running;
+  
+  GameInterface& gameInterface;
   
 };
 

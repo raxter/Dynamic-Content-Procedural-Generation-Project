@@ -4,33 +4,34 @@
 #include <QVector>
 #include <QFont>
 #include <QObject>
+#include <QImage>
+
+#include "Box2D.h"
 
 namespace ProcGen {
 
 namespace AbstractGameComponent {
 
   
-class Display : public QObject {
+class Display {
 
-  Q_OBJECT
 
   protected: /* class specific */
 
   Display();
   virtual ~Display();
   
-  /* Overload these signals!*/
-  signals:
-  void ready( const Display& );
-  
-  public slots:
-  void requestReady();
-  
   public: /* methods */
   
-  virtual bool isInitialized() const = 0;
+  virtual void initialize() = 0;
+  
+  virtual void resize (int width, int height) = 0;
   
   virtual void initRenderStep() = 0;
+  
+  virtual unsigned int bindTexture(const QImage& image) const = 0;
+  
+  virtual void drawBody(b2Body* body) const = 0;
   
   virtual void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const = 0;
   

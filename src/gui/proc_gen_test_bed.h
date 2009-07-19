@@ -12,10 +12,10 @@
 
 #include "ui_proc_gen_test_bed.h"
 
-#include "game_components/control_interface.h"
 #include "game_components/gl_display.h"
 #include "game_components/test_game.h"
 #include "abstract_game_components/runner.h"
+#include "abstract_game_components/control_interface.h"
 
 namespace ProcGen {
 
@@ -31,14 +31,15 @@ class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
   ProcGenTestBed(QApplication &application);
   ~ProcGenTestBed();
   
+  
   private: /* variables */
 
   QApplication &application;
   GameComponent::GLDisplayWidget* glDisplayWidget;
   GameComponent::GLDisplay* glDisplay;
   GameComponent::TestGame* testGame;
-  GameComponent::ControlInterface* controlInterface;
   
+  AbstractGameComponent::ControlInterface* controlInterface;
   AbstractGameComponent::Runner* gameRunner;
 };
 

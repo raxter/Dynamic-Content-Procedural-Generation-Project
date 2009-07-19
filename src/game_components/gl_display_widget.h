@@ -3,31 +3,41 @@
 
 
 #include <QGLWidget>
+#include <QMouseEvent>
+#include <QKeyEvent>
+
+#include "abstract_game_components/game_interface.h"
+#include "abstract_game_components/control_interface.h"
 
 namespace ProcGen {
 
 namespace GameComponent {
 
   
-class GLDisplayWidget : public QGLWidget {
+class GLDisplayWidget : public QGLWidget, public AbstractGameComponent::GameInterface {
 
   Q_OBJECT
 
   public: /* class specific */
 
-  GLDisplayWidget(QWidget* parent = 0);
+  GLDisplayWidget(AbstractGameComponent::Game& gameCore, AbstractGameComponent::Display& displayer, AbstractGameComponent::ControlInterface& controlInterface, QWidget* parent = 0);
   ~GLDisplayWidget();
-
+  
   signals:
-  
-  void sendingContext();
-  
+
   void mouseMoved(const QPoint& pos);
   void keyEvent(int key, bool keyDown);
   void mouseEvent(int button, bool buttonDown);
 
   public: /* over-ridden methods */
   
+  /* from GameInterface */
+  void initStep();
+  void logicStep();
+  void renderStep();
+  void cleanUpStep();
+  bool initialized();
+ 
   /* from QGLWidget */
   void initializeGL();
   void paintGL();
@@ -40,6 +50,14 @@ class GLDisplayWidget : public QGLWidget {
   void keyReleaseEvent ( QKeyEvent * event );
   void mousePressEvent ( QMouseEvent * event );
   void mouseReleaseEvent ( QMouseEvent * event );
+  
+  private:
+  
+  bool performResize, isInitialized;
+  int resize_width, resize_height;
+  
+  AbstractGameComponent::Display& displayer;
+  AbstractGameComponent::ControlInterface& controlInterface;
 
 };
 

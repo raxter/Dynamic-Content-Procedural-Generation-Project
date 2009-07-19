@@ -1,8 +1,6 @@
 #include "gl_display.h"
 
 #include <QDebug>
-#include <QMouseEvent>
-#include <QKeyEvent>
 
 namespace ProcGen {
 
@@ -16,7 +14,13 @@ namespace GameComponent {
 ** Default Constructor
 **
 ****************************************************************************/
-GLDisplayWidget::GLDisplayWidget(QWidget* parent) : QGLWidget(parent)
+GLDisplayWidget::GLDisplayWidget(AbstractGameComponent::Game& gameCore, AbstractGameComponent::Display& displayer, AbstractGameComponent::ControlInterface& controlInterface, QWidget* parent) : 
+            QGLWidget(parent), 
+            GameInterface(gameCore),
+            displayer(displayer), 
+            controlInterface(controlInterface),  
+            performResize(false),
+            isInitialized(false)
 {
   setMouseTracking ( true );
   grabKeyboard ();
@@ -41,19 +45,26 @@ GLDisplayWidget::~GLDisplayWidget()
 ****************************************************************************/
 void GLDisplayWidget::initializeGL()
 {
-  qDebug() << "initializeGL";         
-  
-  glClearColor(0.0, 0.0, 0.0, 0.0);
-
-  /*FIXME this should move, similar vibe to rendering... if I ever get that working*/
-  glEnable(GL_DEPTH_TEST);
-  
-  glMatrixMode(GL_MODELVIEW);
-
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
-
+  qDebug() << "GLDisplayWidget::initializeGL";      
+  qDebug() << "currentContext: " << QGLContext::currentContext ();  
+  if (!isInitialized)  {
+    displayer.initialize();
+    gameCore.initStep(displayer);
+    isInitialized = true;
+    //emit initializeComplete();
+  }
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+bool GLDisplayWidget::initialized()
+{
+  qDebug() << "GLDisplayWidget::initialized";
+  return isInitialized;
+}
 
 
 /****************************************************************************
@@ -61,24 +72,79 @@ void GLDisplayWidget::initializeGL()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplayWidget::paintGL() {
-  emit sendingContext();
+void GLDisplayWidget::initStep()
+{
+  qDebug() << "GLDisplayWidget::initStep";
+  glInit ();
 }
 
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::logicStep()
+{
+  qDebug() << "GLDisplayWidget::logicStep";
+  
+  controlInterface.eventStep();
+  if (performResize) {
+    displayer.resize(resize_width, resize_height);
+    gameCore.resizeStep(resize_width, resize_height);
+    performResize = false;
+  }
+  gameCore.logicStep(controlInterface);
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::renderStep()
+{
+  qDebug() << "GLDisplayWidget::renderStep";
+  updateGL ();
+}
+  
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::cleanUpStep()
+{
+  qDebug() << "GLDisplayWidget::cleanUpStep";
+
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplayWidget::paintGL() {
+  qDebug() << "GLDisplayWidget::paintGL";    
+  qDebug() << "currentContext: " << QGLContext::currentContext ();    
+
+  gameCore.renderStep(displayer);
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
 void GLDisplayWidget::resizeGL ( int width, int height ) {
   qDebug() << "resizeGL - " << width << " " << height;
-
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glViewport(0, 0, width, height);
-  //glOrtho(	0, width, height, 0, -10000, 10000);
-  gluPerspective( 75/*GLdouble	fovy*/,
-			            1/*GLdouble	aspect*/,
-			            0.1/*GLdouble	zNear*/,
-			            10000/*GLdouble	zFar*/ );
-
-  glMatrixMode(GL_MODELVIEW);
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  
+  performResize = true;
+  resize_width = width;
+  resize_height = height;
 }
 
 /****************************************************************************

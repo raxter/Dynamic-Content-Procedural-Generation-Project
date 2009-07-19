@@ -1,4 +1,4 @@
-#include "display.h"
+#include "game_interface.h"
 
 #include <QDebug>
 
@@ -7,13 +7,48 @@ namespace ProcGen {
 namespace AbstractGameComponent {
 
   
+
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-Display::Display()
+GameInterface::GameInterface(Game& gameCore) : gameCore(gameCore)
 {
+
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+GameInterface::~GameInterface()
+{
+
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+bool GameInterface::initialized()
+{
+  qDebug() << "Game::initialized";
+  return false;
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GameInterface::initStep()
+{
+  qDebug() << "Game::initStep";
 }
 
   
@@ -22,101 +57,34 @@ Display::Display()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-Display::~Display()
+void GameInterface::cleanUpStep()
 {
-}
+  qDebug() << "Game::cleanUpStep";
 
+}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::initialize()
+void GameInterface::logicStep()
 {
+  qDebug() << "Game::logicStep";
 }
+
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::resize(int width, int height)
+void GameInterface::renderStep()
 {
+  qDebug() << "Game::renderStep";
 }
-  
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::initRenderStep()
-{
-}
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::cleanupRenderStep()
-{
-}
-
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-unsigned int Display::bindTexture(const QImage& image) const {
-
-}
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::drawBody(b2Body* body) const {
-
-
-}
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const
-{
-}
-
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::drawPolygon(const QVector<double>& points) const
-{
-}
-
-
-
 
 } /* end of namespace AbstractGameComponent */
 
 } /* end of namespace ProcGen */
-
-
-
-
-
-
-
-
-
-
-
-
 

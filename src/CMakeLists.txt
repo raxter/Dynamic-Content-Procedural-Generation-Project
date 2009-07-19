@@ -21,10 +21,10 @@ SET(PROC_GEN_SRCS_CXX
   game_components/test_game.cpp
   game_components/gl_display.cpp
   game_components/gl_display_widget.cpp
-  game_components/control_interface.cpp
   
   abstract_game_components/display.cpp
   abstract_game_components/game.cpp
+  abstract_game_components/game_interface.cpp
   abstract_game_components/runner.cpp
   abstract_game_components/control_interface.cpp
   
@@ -37,15 +37,9 @@ SET(PROC_GEN_MOC_SRCS
 
   gui/proc_gen_test_bed.h
   
-  game_components/test_game.h
-  game_components/gl_display.h
   game_components/gl_display_widget.h
-  game_components/control_interface.h
   
-  abstract_game_components/display.h
-  abstract_game_components/game.h
   abstract_game_components/runner.h
-  abstract_game_components/control_interface.h
 )
 
 SET(PROC_GEN_UI
@@ -70,6 +64,6 @@ QT4_WRAP_CPP(PROC_GEN_SRCS_CXX ${PROC_GEN_MOC_SRCS})
 #IF(WIN32)
 #  TARGET_LINK_LIBRARIES(mxitc ${QT_LIBRARIES} ${QT_GIF_PLUGIN} ${QT_JPEG_PLUGIN})
 #ELSE()
-  TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} ${CMAKE_SOURCE_DIR}/pal/lib/libpal.so)
+  TARGET_LINK_LIBRARIES(procgen ${QT_LIBRARIES} ${CMAKE_SOURCE_DIR}/Box2D/Box2D/Library/libBox2D.a)
 #ENDIF()
 

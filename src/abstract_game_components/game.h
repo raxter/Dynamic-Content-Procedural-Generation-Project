@@ -11,21 +11,21 @@ namespace ProcGen {
 namespace AbstractGameComponent {
 
   
-class Game : public QObject {
+class Game{
 
-  Q_OBJECT
 
   public: /* class specific */
 
   Game();
   virtual ~Game();
   
-  public slots: /* virtual */
+  public: /* virtual */
 
-  virtual void initStep();
-  virtual void logicStep(const ControlInterface& controlInterface);
-  virtual void renderStep(const Display& displayer);
-  //TODO create cleanUpStep()
+  virtual void resizeStep(int width, int height) = 0;
+  virtual void initStep(const Display& displayer) = 0;
+  virtual void logicStep(const ControlInterface& controlInterface) = 0;
+  virtual void renderStep(const Display& displayer) = 0;
+  virtual void cleanUpStep() = 0;
 
 };
 

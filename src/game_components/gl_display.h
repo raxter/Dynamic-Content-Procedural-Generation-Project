@@ -14,37 +14,36 @@ namespace GameComponent {
   
 class GLDisplay : public AbstractGameComponent::Display {
 
-  Q_OBJECT
 
   public: /* class specific */
 
-  GLDisplay(GLDisplayWidget& glDisplayWidget);
+  GLDisplay();
   ~GLDisplay();
 
-  signals: /* over-ridden */
-  void ready( const Display& );
-
-  public slots: /* over-ridden */
-  void requestReady();
-  
-  public slots:
-  void sendReady();
 
   public: /* over-ridden methods */
   
-  bool isInitialized() const;
+  void setGLDisplayWidget(GLDisplayWidget* glDisplayWidget);
+  
+  void initialize();
+  
+  void resize(int width, int height);
   
   void initRenderStep();
   void cleanupRenderStep();
   
+  unsigned int bindTexture(const QImage& image) const;
+  
+  void drawBody(b2Body* body) const;
   void drawCube(double cx, double cy, double cz, double sx, double sy, double sz) const;
+  
   void drawPolygon(const QVector<double>& points) const;
   void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const;
   //void drawMesh, etc
 
   private: /* variabels */
   bool initialized;
-  GLDisplayWidget& glDisplayWidget;
+  GLDisplayWidget* glDisplayWidget;
 
 };
 

@@ -3,40 +3,57 @@
 
 #include <QObject>
 #include <QPoint>
+#include <QHash>
 
 namespace ProcGen {
 
 namespace AbstractGameComponent {
 
   
-class ControlInterface : public QObject {
+class ControlInterface {
 
-  Q_OBJECT
-
-  protected: /* class specific */
+  public: /* class specific */
 
   ControlInterface();
   virtual ~ControlInterface();
   
-  signals:
-  void ready( const ControlInterface& );
-  
-  public slots:
-  void requestReady();
-  
   public: /* methods */
   
-  virtual void eventStep() = 0;
+  void incomingMousePosition(const QPoint& point);
+  void incomingKeyEvent(int key, bool keyDown);
+  void incomingMouseButtonEvent(int mouseCode, bool isMouseButtonDown);
   
-  virtual QPoint getMousePosition() const = 0;
-  virtual QPoint getMouseMovement() const = 0;
+  void eventStep();
   
-  virtual bool isKeyDown(int keyCode) const = 0;
-  virtual bool isKeyTapped(int keyCode) const = 0;
+  QPoint getMousePosition() const;
+  QPoint getMouseMovement() const;
   
-  virtual bool isMouseDown(int mouseButtonCode) const = 0;
-  virtual bool isMouseTapped(int mouseButtonCode) const = 0;
+  bool isKeyDown(int keyCode) const;
+  bool isKeyTapped(int keyCode) const;
   
+  bool isMouseDown(int mouseButtonCode) const;
+  bool isMouseTapped(int mouseButtonCode) const;
+  
+  private: /* variables */
+  
+  QPoint mousePosition;
+  QPoint mouseMovement;
+  QPoint currentMousePosition;
+  QPoint oldMousePosition;
+  
+  // TODO make into hashes
+  QHash<int, bool> keyDown;
+  QHash<int, bool> keyTapped;
+  QHash<int, bool> keyJustDown;
+  
+  QList<int> keysUp, keysDown, forceTapUp;
+  
+  // TODO make into hashes
+  QHash<int, bool> mouseDown;
+  QHash<int, bool> mouseTapped;
+  QHash<int, bool> mouseJustDown;
+  
+  QList<int> mouseButtonsUp, mouseButtonsDown, forceMouseTapUp;
   
 };
 

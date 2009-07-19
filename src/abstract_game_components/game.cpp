@@ -34,9 +34,19 @@ Game::~Game()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Game::initStep()
+void Game::resizeStep(int width, int height)
 {
+  qDebug() << "Game::resizeStep";
+}
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Game::initStep(const Display& displayer)
+{
+  qDebug() << "Game::initStep";
 }
 
 
@@ -59,6 +69,17 @@ void Game::logicStep(const ControlInterface& controlInterface)
 void Game::renderStep(const Display& displayer )
 {
   qDebug() << "Game::renderStep";
+}
+  
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Game::cleanUpStep()
+{
+  qDebug() << "Game::cleanUpStep";
+
 }
 
 } /* end of namespace AbstractGameComponent */

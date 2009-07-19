@@ -14,9 +14,9 @@ namespace GameComponent {
 ** Default Constructor
 **
 ****************************************************************************/
-GLDisplay::GLDisplay(GLDisplayWidget& glDisplayWidget) : glDisplayWidget(glDisplayWidget)
+GLDisplay::GLDisplay() : glDisplayWidget(0)
 {
-  connect (&glDisplayWidget, SIGNAL (sendingContext( )), this, SLOT(sendReady()));
+  //connect (&glDisplayWidget, SIGNAL (sendingContext( )), this, SLOT(sendReady()));
 }
 
 
@@ -36,8 +36,9 @@ GLDisplay::~GLDisplay()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::requestReady() {
-  glDisplayWidget.updateGL ();
+void GLDisplay::setGLDisplayWidget(GLDisplayWidget* glDisplayWidget)
+{
+  this->glDisplayWidget = glDisplayWidget;
 }
 
 /****************************************************************************
@@ -45,18 +46,37 @@ void GLDisplay::requestReady() {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::sendReady() {
-  ready(*this);
-}
+void GLDisplay::resize(int width, int height)
+{
+  qDebug() << "resizeGL - " << width << " " << height;
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
 
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glViewport(0, 0, width, height);
+  glOrtho(	0, width/10, 0, height/10, -100, 100);
+  //gluPerspective( 75/*GLdouble	fovy*/,
+	//		            1/*GLdouble	aspect*/,
+	//		            0.1/*GLdouble	zNear*/,
+	//		            10000/*GLdouble	zFar*/ );
+
+  glMatrixMode(GL_MODELVIEW);
+}
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-bool GLDisplay::isInitialized() const {
-  return initialized;
+void GLDisplay::initialize() {
+  qDebug() << "GLDisplay::initialize";
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  
+  glClearColor(0.0, 0.0, 0.0, 0.0);
+
+  glEnable(GL_DEPTH_TEST);
+  
+  glMatrixMode(GL_MODELVIEW);
 }
 
 /****************************************************************************
@@ -66,7 +86,8 @@ bool GLDisplay::isInitialized() const {
 ****************************************************************************/
 void GLDisplay::initRenderStep()
 {
-  qDebug() << "initRenderStep";
+  qDebug() << "GLDisplay::initRenderStep";
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
   
 }
 
@@ -77,8 +98,65 @@ void GLDisplay::initRenderStep()
 ****************************************************************************/
 void GLDisplay::cleanupRenderStep()
 {
-  qDebug() << "cleanupRenderStep";
+  qDebug() << "GLDisplay::cleanupRenderStep";
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
 }
+
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+unsigned int  GLDisplay::bindTexture(const QImage& image) const {
+  qDebug() << "GLDisplay::bindTexture";
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  return -1;//glDisplayWidget->bindTexture(image);
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void GLDisplay::drawBody(b2Body* body) const {
+  qDebug() << "GLDisplay::drawBody";
+  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  b2Shape *shape = body->GetShapeList ();
+  
+  while (shape) {
+    
+    glPushMatrix();
+    
+    glTranslatef(body->GetPosition ().x, body->GetPosition ().y, 0);
+    
+    glRotatef(body->GetAngle()*180/M_PI,0,0,1);
+      
+    glBegin(GL_LINE_STRIP);
+    //polygon
+    if (shape->GetType ()) {
+      b2PolygonShape* poly = (b2PolygonShape*)shape;
+      const b2Vec2* vertexArray = poly->GetVertices ();
+      for (int i = 0 ; i < poly->GetVertexCount() ; i++)
+        glVertex2f(vertexArray[i].x, vertexArray[i].y);
+    }
+    //circle
+    else {
+      b2CircleShape* circ = (b2CircleShape*)shape;
+      for (int i = 0 ; i < 17 ; i++)
+        glVertex2f(circ->GetRadius ()*sin(M_PI*2*i/16), circ->GetRadius ()*cos(M_PI*2*i/16));
+      glVertex2f(circ->GetRadius ()*sin(M_PI*2*8/16), circ->GetRadius ()*cos(M_PI*2*8/16));
+    }
+    glEnd();
+    
+    glPopMatrix();
+      
+    
+    shape = shape->GetNext ();
+  }
+}
+
 
 /****************************************************************************
 **
@@ -89,28 +167,28 @@ void GLDisplay::drawCube(double cx, double cy, double cz, double sx, double sy, 
 {
   glPushMatrix();
   
-  glScaled(100,100,100);
+  //glScaled(100,100,100);
   glBegin(GL_QUADS);
   for (int i = 0 ; i < 2 ; i++) {
-    double unit = (i*2)-1;
+    double unit = 0.5*((i*2)-1);
     
     glColor3d(1.0, 0.0, 0.0);
-    glVertex3d( unit,  1.0,  1.0);
-    glVertex3d( unit,  1.0, -1.0);
-    glVertex3d( unit, -1.0, -1.0);
-    glVertex3d( unit, -1.0,  1.0);
+    glVertex3d( unit,  0.5,  0.5);
+    glVertex3d( unit,  0.5, -0.5);
+    glVertex3d( unit, -0.5, -0.5);
+    glVertex3d( unit, -0.5,  0.5);
     
     glColor3d(0.0, 1.0, 0.0);
-    glVertex3d(  1.0, unit,  1.0);
-    glVertex3d(  1.0, unit, -1.0);
-    glVertex3d( -1.0, unit, -1.0);
-    glVertex3d( -1.0, unit,  1.0);
+    glVertex3d(  0.5, unit,  0.5);
+    glVertex3d(  0.5, unit, -0.5);
+    glVertex3d( -0.5, unit, -0.5);
+    glVertex3d( -0.5, unit,  0.5);
     
     glColor3d(0.0, 0.0, 1.0);
-    glVertex3d(  1.0,  1.0, unit);
-    glVertex3d(  1.0, -1.0, unit);
-    glVertex3d( -1.0, -1.0, unit);
-    glVertex3d( -1.0,  1.0, unit);
+    glVertex3d(  0.5,  0.5, unit);
+    glVertex3d(  0.5, -0.5, unit);
+    glVertex3d( -0.5, -0.5, unit);
+    glVertex3d( -0.5,  0.5, unit);
   }
   glEnd();
   
@@ -148,7 +226,7 @@ void GLDisplay::drawPolygon(const QVector<double>& points) const
 ****************************************************************************/
 void GLDisplay::drawText2D(int x, int y, const QString & str, const QFont & fnt, int listBase) const
 {
-  glDisplayWidget.renderText(x, y, str, fnt, listBase);
+  glDisplayWidget->renderText(x, y, str, fnt, listBase);
 }
 
 
