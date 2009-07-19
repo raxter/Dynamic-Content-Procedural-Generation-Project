@@ -300,8 +300,8 @@ void TestGame::calculateOffsetAndZoom() {
 void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 {
 
-  qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
-  qDebug() << "currentContext valid: " << QGLContext::currentContext ()->isValid();
+  //qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+  //qDebug() << "currentContext valid: " << QGLContext::currentContext ()->isValid();
 
   //TODO there should be NO gl in this class
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 

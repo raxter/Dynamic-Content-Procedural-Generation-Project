@@ -40,7 +40,7 @@ void ControlInterface::incomingMousePosition(const QPoint& position) {
   incomingVarMutex.lock();
   currentMousePosition = position;
   incomingVarMutex.unlock();
-  qDebug() << "ControlInterface::incomingMousePosition - " << position;
+  //qDebug() << "ControlInterface::incomingMousePosition - " << position;
 }
 
   
