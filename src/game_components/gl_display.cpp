@@ -108,9 +108,9 @@ void GLDisplay::cleanupRenderStep()
 **
 ****************************************************************************/
 unsigned int  GLDisplay::bindTexture(const QImage& image) const {
-  //qDebug() << "GLDisplay::bindTexture";
-  //qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
-  return -1;//glDisplayWidget->bindTexture(image);
+  qDebug() << "GLDisplay::bindTexture";
+  qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+  return glDisplayWidget->bindTexture(image);
 }
 
 /****************************************************************************

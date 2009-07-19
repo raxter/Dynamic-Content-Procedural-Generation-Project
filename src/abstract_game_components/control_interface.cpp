@@ -40,7 +40,7 @@ void ControlInterface::incomingMousePosition(const QPoint& position) {
   incomingVarMutex.lock();
   currentMousePosition = position;
   incomingVarMutex.unlock();
-  //qDebug() << "ControlInterface::incomingMousePosition - " << position;
+  qDebug() << "ControlInterface::incomingMousePosition - " << position;
 }
 
   
@@ -50,7 +50,7 @@ void ControlInterface::incomingMousePosition(const QPoint& position) {
 **
 ****************************************************************************/
 void ControlInterface::incomingKeyEvent(int keyCode, bool isKeyDown) {
-  //qDebug() << "ControlInterface::incomingKeyEvent - " << keyCode << ": " << (isKeyDown?"pressed ":"released");
+  qDebug() << "ControlInterface::incomingKeyEvent - " << keyCode << ": " << (isKeyDown?"pressed ":"released");
   incomingVarMutex.lock();
   if (isKeyDown) {
     keysDown.append(keyCode);
@@ -68,7 +68,7 @@ void ControlInterface::incomingKeyEvent(int keyCode, bool isKeyDown) {
 **
 ****************************************************************************/
 void ControlInterface::incomingMouseButtonEvent(int mouseCode, bool isMouseButtonDown) {
-  //qDebug() << "ControlInterface::incomingKeyEvent - " << keyCode << ": " << (isKeyDown?"pressed ":"released");
+  qDebug() << "ControlInterface::incomingMouseButtonEvent - " << mouseCode << ": " << (isMouseButtonDown?"pressed ":"released");
   incomingVarMutex.lock();
   if (isMouseButtonDown) {
     mouseButtonsDown.append(mouseCode);

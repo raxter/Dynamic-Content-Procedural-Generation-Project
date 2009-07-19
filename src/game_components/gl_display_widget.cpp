@@ -227,8 +227,10 @@ void GLDisplayWidget::resizeGL ( int width, int height ) {
 ****************************************************************************/
 void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
   qDebug() << "keyPressEvent";
-  if (!event->isAutoRepeat () )
+  if (!event->isAutoRepeat () ) {
     emit keyEvent(event->key (), true);
+    controlInterface.incomingKeyEvent(event->key (), true);
+  }
 }
 /****************************************************************************
 **
@@ -237,8 +239,10 @@ void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
 ****************************************************************************/
 void GLDisplayWidget::keyReleaseEvent ( QKeyEvent * event ) {
   qDebug() << "keyReleaseEvent";
-  if (!event->isAutoRepeat ())
+  if (!event->isAutoRepeat ()) {
     emit keyEvent(event->key (), false);
+    controlInterface.incomingKeyEvent(event->key (), false);
+  }
 }
   
 } /* end of namespace GameComponent */
