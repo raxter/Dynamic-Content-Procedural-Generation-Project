@@ -41,6 +41,10 @@ class ProcGenTestBed : public QMainWindow, private Ui::ProcGenTestBed{
   
   AbstractGameComponent::ControlInterface* controlInterface;
   AbstractGameComponent::Runner* gameRunner;
+  
+  
+  
+  QThread *widgetsThread;
 };
 
 } /* end of namespace GUI */

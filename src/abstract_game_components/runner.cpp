@@ -92,6 +92,7 @@ void Runner::run()
   
   while (!gameInterface.initialized()) {
     yieldCurrentThread ();
+    usleep(50000);
   }
   running = true;
   

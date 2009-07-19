@@ -5,6 +5,7 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QMutex>
 
 #include "abstract_game_components/game_interface.h"
 #include "abstract_game_components/control_interface.h"
@@ -28,6 +29,8 @@ class GLDisplayWidget : public QGLWidget, public AbstractGameComponent::GameInte
   void mouseMoved(const QPoint& pos);
   void keyEvent(int key, bool keyDown);
   void mouseEvent(int button, bool buttonDown);
+  
+  void pleaseDraw();
 
   public: /* over-ridden methods */
   
@@ -42,14 +45,15 @@ class GLDisplayWidget : public QGLWidget, public AbstractGameComponent::GameInte
   void initializeGL();
   void paintGL();
   void resizeGL ( int width, int height );
+  //void paintEvent ( QPaintEvent * event );
   
   /* from QWidget */
-  void mouseMoveEvent ( QMouseEvent * event );
+  /*void mouseMoveEvent ( QMouseEvent * event );
   void wheelEvent ( QWheelEvent * event );
+  void mousePressEvent ( QMouseEvent * event );
+  void mouseReleaseEvent ( QMouseEvent * event );*/
   void keyPressEvent ( QKeyEvent * event );
   void keyReleaseEvent ( QKeyEvent * event );
-  void mousePressEvent ( QMouseEvent * event );
-  void mouseReleaseEvent ( QMouseEvent * event );
   
   private:
   
@@ -58,6 +62,13 @@ class GLDisplayWidget : public QGLWidget, public AbstractGameComponent::GameInte
   
   AbstractGameComponent::Display& displayer;
   AbstractGameComponent::ControlInterface& controlInterface;
+
+
+
+  QMutex GLMutex;
+  
+  QMutex initMutex;
+  QMutex resizeMutex;
 
 };
 

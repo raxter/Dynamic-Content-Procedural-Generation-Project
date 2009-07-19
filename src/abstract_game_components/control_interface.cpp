@@ -1,6 +1,8 @@
 #include "control_interface.h"
 
 #include <QDebug>
+#include <QThread>
+#include <QGLContext>
 
 namespace ProcGen {
 
@@ -35,7 +37,9 @@ ControlInterface::~ControlInterface() {
 **
 ****************************************************************************/
 void ControlInterface::incomingMousePosition(const QPoint& position) {
+  incomingVarMutex.lock();
   currentMousePosition = position;
+  incomingVarMutex.unlock();
   //qDebug() << "ControlInterface::incomingMousePosition - " << position;
 }
 
@@ -47,12 +51,14 @@ void ControlInterface::incomingMousePosition(const QPoint& position) {
 ****************************************************************************/
 void ControlInterface::incomingKeyEvent(int keyCode, bool isKeyDown) {
   //qDebug() << "ControlInterface::incomingKeyEvent - " << keyCode << ": " << (isKeyDown?"pressed ":"released");
+  incomingVarMutex.lock();
   if (isKeyDown) {
     keysDown.append(keyCode);
   }
   else {
     keysUp.append(keyCode);
   } 
+  incomingVarMutex.unlock();
 }
 
   
@@ -63,12 +69,14 @@ void ControlInterface::incomingKeyEvent(int keyCode, bool isKeyDown) {
 ****************************************************************************/
 void ControlInterface::incomingMouseButtonEvent(int mouseCode, bool isMouseButtonDown) {
   //qDebug() << "ControlInterface::incomingKeyEvent - " << keyCode << ": " << (isKeyDown?"pressed ":"released");
+  incomingVarMutex.lock();
   if (isMouseButtonDown) {
     mouseButtonsDown.append(mouseCode);
   }
   else {
     mouseButtonsUp.append(mouseCode);
   } 
+  incomingVarMutex.unlock();
 }
 
 /****************************************************************************
@@ -77,8 +85,10 @@ void ControlInterface::incomingMouseButtonEvent(int mouseCode, bool isMouseButto
 **
 ****************************************************************************/
 void ControlInterface::eventStep() {
-  qDebug() << "ControlInterface::eventStep";
+  //qDebug() << "ControlInterface::eventStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 
+  incomingVarMutex.lock();
+  
   /* mouse movement events */
   mousePosition = currentMousePosition;
   mouseMovement = currentMousePosition - oldMousePosition;
@@ -159,6 +169,8 @@ void ControlInterface::eventStep() {
     keyJustDown[i] = false;
   }
   
+  incomingVarMutex.unlock();
+  //qDebug() << "END ControlInterface::eventStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 /****************************************************************************

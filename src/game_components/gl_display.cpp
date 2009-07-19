@@ -1,6 +1,7 @@
 #include "gl_display.h"
 
 #include <QDebug>
+#include <QThread>
 
 namespace ProcGen {
 
@@ -48,8 +49,7 @@ void GLDisplay::setGLDisplayWidget(GLDisplayWidget* glDisplayWidget)
 ****************************************************************************/
 void GLDisplay::resize(int width, int height)
 {
-  qDebug() << "resizeGL - " << width << " " << height;
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  qDebug() << "GLDisplay::resizeGL - " << width << " " << height << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -69,14 +69,14 @@ void GLDisplay::resize(int width, int height)
 **
 ****************************************************************************/
 void GLDisplay::initialize() {
-  qDebug() << "GLDisplay::initialize";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  qDebug() << "GLDisplay::initialize" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   
   glClearColor(0.0, 0.0, 0.0, 0.0);
 
   glEnable(GL_DEPTH_TEST);
   
   glMatrixMode(GL_MODELVIEW);
+  qDebug() << "END GLDisplay::initialize" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 /****************************************************************************
@@ -86,8 +86,7 @@ void GLDisplay::initialize() {
 ****************************************************************************/
 void GLDisplay::initRenderStep()
 {
-  qDebug() << "GLDisplay::initRenderStep";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  qDebug() << "GLDisplay::initRenderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   
 }
 
@@ -98,8 +97,7 @@ void GLDisplay::initRenderStep()
 ****************************************************************************/
 void GLDisplay::cleanupRenderStep()
 {
-  qDebug() << "GLDisplay::cleanupRenderStep";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  qDebug() << "GLDisplay::cleanupRenderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 
@@ -110,8 +108,8 @@ void GLDisplay::cleanupRenderStep()
 **
 ****************************************************************************/
 unsigned int  GLDisplay::bindTexture(const QImage& image) const {
-  qDebug() << "GLDisplay::bindTexture";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  //qDebug() << "GLDisplay::bindTexture";
+  //qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   return -1;//glDisplayWidget->bindTexture(image);
 }
 
@@ -121,8 +119,8 @@ unsigned int  GLDisplay::bindTexture(const QImage& image) const {
 **
 ****************************************************************************/
 void GLDisplay::drawBody(b2Body* body) const {
-  qDebug() << "GLDisplay::drawBody";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  //qDebug() << "GLDisplay::drawBody";
+  //qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   b2Shape *shape = body->GetShapeList ();
   
   while (shape) {

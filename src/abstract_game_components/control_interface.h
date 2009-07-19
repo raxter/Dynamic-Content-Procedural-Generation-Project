@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QHash>
+#include <QMutex>
 
 namespace ProcGen {
 
@@ -54,6 +55,8 @@ class ControlInterface {
   QHash<int, bool> mouseJustDown;
   
   QList<int> mouseButtonsUp, mouseButtonsDown, forceMouseTapUp;
+  
+  QMutex incomingVarMutex;
   
 };
 

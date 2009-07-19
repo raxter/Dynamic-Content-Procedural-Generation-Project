@@ -4,6 +4,7 @@
 //#include "abstract_game_components/display.h"
 
 #include <QDebug>
+#include <QThread>
 
 
 #include <cmath>
@@ -75,8 +76,7 @@ void TestGame::resizeStep(int width, int height) {
 ****************************************************************************/
 void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 {
-  qDebug() << "TestGame::initStep";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  qDebug() << "TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   
   launching = 0;
   spin_force = 0;
@@ -109,6 +109,7 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
   backgroundTexture = QImage("../content/background.png");
   backgroundTextureId = displayer.bindTexture(backgroundTexture);
   
+  qDebug() << "END TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 /****************************************************************************
@@ -188,8 +189,7 @@ b2Body* TestGame::createBox(float32 x, float32 y, float32 width, float32 height,
 ****************************************************************************/
 void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlInterface)
 {
-  qDebug() << "TestGame::logicStep";
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  //qDebug() << "TestGame::logicStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   framecount++;
   
   mousePos = controlInterface.getMousePosition();
@@ -260,6 +260,8 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
   calculateOffsetAndZoom();
  
 	world->Step(timeStep, velocityIterations);
+	
+  //qDebug() << "ENDTestGame::logicStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 void TestGame::calculateOffsetAndZoom() {
@@ -280,10 +282,7 @@ void TestGame::calculateOffsetAndZoom() {
 void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 {
 
-
-  qDebug() << "TestGame::renderStep";
-  //qDebug() << displayer;
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
+  //qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 
   //TODO there should be NO gl in this class
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
@@ -331,6 +330,9 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   displayer.drawText2D(10,70, QString("Distance^-1 = ") + QString::number(1.0/ball_dist*1000), QFont());
   displayer.drawText2D(10,90, QString("Ang Vel = ") + QString::number(ball[0]->GetAngularVelocity()), QFont());
   displayer.drawText2D(10,110, QString("spin_force = ") + QString::number(spin_force), QFont());
+  
+  
+  //qDebug() << "END TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
 
 void TestGame::cleanUpStep() {

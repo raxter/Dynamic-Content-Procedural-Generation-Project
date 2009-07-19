@@ -1,6 +1,7 @@
 #include "gl_display.h"
 
 #include <QDebug>
+#include <QThread>
 
 namespace ProcGen {
 
@@ -24,6 +25,8 @@ GLDisplayWidget::GLDisplayWidget(AbstractGameComponent::Game& gameCore, Abstract
 {
   setMouseTracking ( true );
   grabKeyboard ();
+  
+  connect(this, SIGNAL (pleaseDraw()), this, SLOT(updateGL()));
 }
 
 
@@ -44,15 +47,18 @@ GLDisplayWidget::~GLDisplayWidget()
 **
 ****************************************************************************/
 void GLDisplayWidget::initializeGL()
-{
-  qDebug() << "GLDisplayWidget::initializeGL";      
-  qDebug() << "currentContext: " << QGLContext::currentContext ();  
+{ 
+  QMutexLocker locker(&GLMutex);
+  QMutexLocker initLocker(&initMutex);
+  //qDebug() << "GLDisplayWidget::initializeGL" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();  
   if (!isInitialized)  {
+    
     displayer.initialize();
     gameCore.initStep(displayer);
     isInitialized = true;
     //emit initializeComplete();
   }
+  //qDebug() << "END GLDisplayWidget::initializeGL" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();  
 }
 
 /****************************************************************************
@@ -62,7 +68,10 @@ void GLDisplayWidget::initializeGL()
 ****************************************************************************/
 bool GLDisplayWidget::initialized()
 {
-  qDebug() << "GLDisplayWidget::initialized";
+  QMutexLocker locker(&GLMutex);
+  QMutexLocker initLocker(&initMutex);
+  //qDebug() << "GLDisplayWidget::initialized" << " Thread: " << QThread::currentThread ();
+  //qDebug() << "END GLDisplayWidget::initialized" << " Thread: " << QThread::currentThread ();
   return isInitialized;
 }
 
@@ -74,7 +83,8 @@ bool GLDisplayWidget::initialized()
 ****************************************************************************/
 void GLDisplayWidget::initStep()
 {
-  qDebug() << "GLDisplayWidget::initStep";
+  QMutexLocker locker(&GLMutex);
+  qDebug() << "GLDisplayWidget::initStep" << " Thread: " << QThread::currentThread ();
   glInit ();
 }
 
@@ -86,15 +96,13 @@ void GLDisplayWidget::initStep()
 ****************************************************************************/
 void GLDisplayWidget::logicStep()
 {
-  qDebug() << "GLDisplayWidget::logicStep";
+  QMutexLocker locker(&GLMutex);
+  //qDebug() << "GLDisplayWidget::logicStep" << " Thread: " << QThread::currentThread ();
   
   controlInterface.eventStep();
-  if (performResize) {
-    displayer.resize(resize_width, resize_height);
-    gameCore.resizeStep(resize_width, resize_height);
-    performResize = false;
-  }
   gameCore.logicStep(controlInterface);
+  
+  //qDebug() << "END GLDisplayWidget::logicStep" << " Thread: " << QThread::currentThread ();
 }
 
 
@@ -105,8 +113,13 @@ void GLDisplayWidget::logicStep()
 ****************************************************************************/
 void GLDisplayWidget::renderStep()
 {
-  qDebug() << "GLDisplayWidget::renderStep";
-  updateGL ();
+  QMutexLocker locker(&GLMutex);
+  //qDebug() << "GLDisplayWidget::renderStep" << " Thread: " << QThread::currentThread ();
+  locker.unlock();
+  //glDraw ();
+  //updateGL();
+  emit pleaseDraw();
+  //qDebug() << "END GLDisplayWidget::renderStep" << " Thread: " << QThread::currentThread ();
 }
   
 /****************************************************************************
@@ -116,7 +129,8 @@ void GLDisplayWidget::renderStep()
 ****************************************************************************/
 void GLDisplayWidget::cleanUpStep()
 {
-  qDebug() << "GLDisplayWidget::cleanUpStep";
+  QMutexLocker locker(&GLMutex);
+  //qDebug() << "GLDisplayWidget::cleanUpStep" << " Thread: " << QThread::currentThread ();
 
 }
 
@@ -126,10 +140,23 @@ void GLDisplayWidget::cleanUpStep()
 **
 ****************************************************************************/
 void GLDisplayWidget::paintGL() {
-  qDebug() << "GLDisplayWidget::paintGL";    
-  qDebug() << "currentContext: " << QGLContext::currentContext ();    
-
-  gameCore.renderStep(displayer);
+  QMutexLocker locker(&GLMutex);
+  //qDebug() << "GLDisplayWidget::paintGL" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();  
+  makeCurrent ();
+  QMutexLocker resizeLocker(&resizeMutex);
+  if (QGLContext::currentContext ()) {
+    //qDebug() << "GLContext not NULL";
+    if (performResize) {
+      displayer.resize(resize_width, resize_height);
+      gameCore.resizeStep(resize_width, resize_height);
+      performResize = false;
+    }
+    gameCore.renderStep(displayer);
+  }
+  else {
+    //qDebug() << "GLContext NULL!!";
+    }
+  //qDebug() << "END GLDisplayWidget::paintGL" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();  
 }
 
 
@@ -139,48 +166,59 @@ void GLDisplayWidget::paintGL() {
 **
 ****************************************************************************/
 void GLDisplayWidget::resizeGL ( int width, int height ) {
-  qDebug() << "resizeGL - " << width << " " << height;
-  qDebug() << "currentContext: " << QGLContext::currentContext ();
-  
+  QMutexLocker locker(&GLMutex);
+  //qDebug() << "GLDisplayWidget::resizeGL - " << width << " " << height << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+  QMutexLocker resizeLocker(&resizeMutex);
   performResize = true;
   resize_width = width;
   resize_height = height;
+  //qDebug() << "END GLDisplayWidget::resizeGL - " << width << " " << height << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
+
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplayWidget::mouseMoveEvent ( QMouseEvent * event ) {
+//void GLDisplayWidget::paintEvent ( QPaintEvent * event ) {
+//  qDebug() << "GLDisplayWidget::paintEvent" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
+//}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+/*void GLDisplayWidget::mouseMoveEvent ( QMouseEvent * event ) {
   emit mouseMoved(event->pos ());
-}
+}*/
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
+/*void GLDisplayWidget::wheelEvent ( QWheelEvent * event ) {
 
-}
+}*
 
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
+/*void GLDisplayWidget::mousePressEvent ( QMouseEvent * event ) {
   emit mouseEvent(event->button (), true);
-}
+}*/
 /****************************************************************************
 **
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
+/*void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
   emit mouseEvent(event->button (), false);
-}
+}*/
 
 /****************************************************************************
 **
@@ -188,7 +226,7 @@ void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
-  //qDebug() << "keyPressEvent";
+  qDebug() << "keyPressEvent";
   if (!event->isAutoRepeat () )
     emit keyEvent(event->key (), true);
 }
@@ -198,7 +236,7 @@ void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::keyReleaseEvent ( QKeyEvent * event ) {
-  //qDebug() << "keyReleaseEvent";
+  qDebug() << "keyReleaseEvent";
   if (!event->isAutoRepeat ())
     emit keyEvent(event->key (), false);
 }

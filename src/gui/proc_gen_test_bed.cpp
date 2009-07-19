@@ -37,8 +37,12 @@ ProcGenTestBed::ProcGenTestBed(QApplication &application) : QMainWindow(), appli
   
   gameRunner = new AbstractGameComponent::Runner(*glDisplayWidget);
   
-  gameRunner->runGame();
+  //widgetsThread = new QThread();
+  //glDisplayWidget->moveToThread(widgetsThread);
+  //controlInterface->moveToThread(widgetsThread);
+  
   glDisplayWidget->moveToThread(gameRunner);
+  gameRunner->runGame();
 }
 
 
