@@ -78,10 +78,10 @@ unsigned int Display::bindTexture(const QImage& image) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::drawBody(b2Body* body) const {
+//void Display::drawBody(b2Body* body) const {
 
 
-}
+//}
 
 /****************************************************************************
 **

@@ -7,7 +7,6 @@
 
 #include "abstract_game_components/game.h"
 
-#include "Box2D.h"
 
 #include "NxPhysics.h"
 
@@ -46,25 +45,14 @@ class TestGame : public AbstractGameComponent::Game {
   
   int framecount;
   
-  double x,y,z,pitch,yaw,offx, offy, scale_zoom, display_width, display_height;
+  double x,y,z,pitch,yaw, display_width, display_height;
   QPoint mousePos, mouseMove;
   
   NxPhysicsSDK* gPhysicsSDK;
   NxScene* gScene;
-  NxPlaneShapeDesc *planeShapeDesc;
-  NxBoxShapeDesc *boxShapeDesc;
   
-  /*
-  b2AABB *worldAABB;
-  b2World* world;
-  QVector<b2Body*> bodies;
-  b2Body *ball [2];
-  */
+  NxActor* box;
   
-  int launching;
-  float ball_dist;
-  
-  float spin_force;
   
   QImage backgroundTexture;
   uint backgroundTextureId;

@@ -14,12 +14,18 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 # find and setup Qt4 for this project
 FIND_PACKAGE(Qt4 REQUIRED)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/external/Box2D/Include/)
-INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Physics/include)
-INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Foundation/include)
-INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Cooking/include)
-INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/PhysXLoader/include)
-INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/NxCharacter/include)
+#INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/external/Box2D/Include/)
+#INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Physics/include)
+#INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Foundation/include)
+#INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/Cooking/include)
+#INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/PhysXLoader/include)
+#INCLUDE_DIRECTORIES(/usr/include/PhysX/v2.8.1/SDKs/NxCharacter/include)
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PhysX/SDKs/Physics/include/)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PhysX/SDKs/Foundation/include/)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PhysX/SDKs/Cooking/include/)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PhysX/SDKs/PhysXLoader/include/)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PhysX/SDKs/NxCharacter/include/)
 
 add_definitions(-DLINUX)
 

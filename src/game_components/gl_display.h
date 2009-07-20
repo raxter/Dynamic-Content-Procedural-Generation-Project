@@ -34,7 +34,7 @@ class GLDisplay : public AbstractGameComponent::Display {
   
   unsigned int bindTexture(const QImage& image) const;
   
-  void drawBody(b2Body* body) const;
+  //void drawBody(b2Body* body) const;
   void drawActor(NxActor* actor) const;
   
   bool closeTo (NxReal r, NxReal val) const;

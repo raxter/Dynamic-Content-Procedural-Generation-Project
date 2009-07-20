@@ -123,7 +123,7 @@ unsigned int  GLDisplay::bindTexture(const QImage& image) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void GLDisplay::drawBody(b2Body* body) const {
+/*void GLDisplay::drawBody(b2Body* body) const {
   //qDebug() << "GLDisplay::drawBody";
   //qDebug() << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   b2Shape *shape = body->GetShapeList ();
@@ -159,7 +159,7 @@ void GLDisplay::drawBody(b2Body* body) const {
     
     shape = shape->GetNext ();
   }
-}
+}*/
 
 
 /****************************************************************************
@@ -269,7 +269,7 @@ void GLDisplay::drawBox(NxBoxShape* boxShape) const {
   NxF32 matrix[16];
   boxPose.getColumnMajor44(matrix);
   glPushMatrix();
-  glMultMatrixf(matrix);
+  //glMultMatrixf(matrix);
   
   
   glBegin(GL_QUADS);
