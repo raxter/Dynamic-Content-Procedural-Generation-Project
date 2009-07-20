@@ -35,6 +35,12 @@ class GLDisplay : public AbstractGameComponent::Display {
   unsigned int bindTexture(const QImage& image) const;
   
   void drawBody(b2Body* body) const;
+  void drawActor(NxActor* actor) const;
+  
+  bool closeTo (NxReal r, NxReal val) const;
+  void drawPlane(NxPlaneShape* plane) const;
+  void drawBox(NxBoxShape* boxShape) const;
+  
   void drawCube() const;
   
   void drawPolygon(const QVector<double>& points) const;

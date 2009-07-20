@@ -51,6 +51,8 @@ class TestGame : public AbstractGameComponent::Game {
   
   NxPhysicsSDK* gPhysicsSDK;
   NxScene* gScene;
+  NxPlaneShapeDesc *planeShapeDesc;
+  NxBoxShapeDesc *boxShapeDesc;
   
   /*
   b2AABB *worldAABB;

@@ -88,6 +88,17 @@ void Display::drawBody(b2Body* body) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
+void Display::drawActor(NxActor* actor) const {
+
+
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
 void Display::drawCube() const
 {
 }

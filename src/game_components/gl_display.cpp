@@ -166,10 +166,147 @@ void GLDisplay::drawBody(b2Body* body) const {
 **
 ** Author: Richard Baxter
 **
+** yay for http://irrlicht.sourceforge.net/phpBB2/viewtopic.php?t=17669 and http://awakenedmmo.org/docs/physx/html/index.html
+**
+****************************************************************************/
+void GLDisplay::drawActor(NxActor* actor) const {
+
+
+  NxShape*const * shapes = actor->getShapes();
+  NxU32 nShapes = actor->getNbShapes();
+  nShapes = actor->getNbShapes();
+  while (nShapes--)
+  {
+    NxShape * shape = shapes[nShapes];
+    
+    switch(shape->getType())
+    {
+        case NX_SHAPE_PLANE:
+          qDebug() << "NX_SHAPE_PLANE";
+          drawPlane(shape->isPlane());
+          break;
+        case NX_SHAPE_SPHERE:
+          qDebug() << "NX_SHAPE_SPHERE";
+          break;
+        case NX_SHAPE_BOX:
+          qDebug() << "NX_SHAPE_BOX";
+          drawBox(shape->isBox());
+          break;
+        case NX_SHAPE_CAPSULE:
+          qDebug() << "NX_SHAPE_CAPSULE";
+          break;
+        case NX_SHAPE_WHEEL:
+          qDebug() << "NX_SHAPE_WHEEL";
+          break;
+        case NX_SHAPE_CONVEX:
+          qDebug() << "NX_SHAPE_CONVEX";
+          break;
+        case NX_SHAPE_MESH:
+          qDebug() << "NX_SHAPE_MESH";
+          break;
+        case NX_SHAPE_HEIGHTFIELD:
+          qDebug() << "NX_SHAPE_HEIGHTFIELD";
+          break;
+        case NX_SHAPE_RAW_MESH:
+          qDebug() << "NX_SHAPE_RAW_MESH";
+          break;
+        case NX_SHAPE_COMPOUND:
+          qDebug() << "NX_SHAPE_COMPOUND";
+          break;
+        case NX_SHAPE_COUNT:
+          qDebug() << "NX_SHAPE_COUNT";
+          break;
+        case NX_SHAPE_FORCE_DWORD:
+          qDebug() << "NX_SHAPE_FORCE_DWORD";
+          break;
+        default:
+          qDebug() << "Unknown shape!";
+        break;
+    } 
+  } 
+
+}
+
+bool GLDisplay::closeTo (NxReal r, NxReal val) const {
+  return abs(r - val) < 0.001;
+}
+
+void GLDisplay::drawPlane(NxPlaneShape* planeShape) const {
+
+    NxPlane plane = planeShape->getPlane ();
+
+    NxVec3 random = plane.normal;
+    if (closeTo(random.x, 0), closeTo(random.y, 1), closeTo(random.z, 0))
+      random.x += 1;
+    else
+      random.y += 1;
+      
+    NxVec3 tx = plane.normal.cross(random);
+    tx.normalize ();
+    //qDebug() << tx.x << ":" << tx.y << ":" << tx.z;
+    NxVec3 ty = plane.normal.cross(tx);
+    ty.normalize ();
+    //qDebug() << ty.x << ":" << ty.y << ":" << ty.z;
+    NxF32 d = plane.d;
+    NxReal n = 1;
+    //qDebug() << (tx.x + ty.x) + n * d << ":" << (tx.y + ty.y) + n * d << ":" << (tx.z + ty.z) + n * d;
+    //qDebug() << (tx.x - ty.x) + n * d << ":" << (tx.y - ty.y) + n * d << ":" << (tx.z - ty.z) + n * d;
+    //qDebug() << (-tx.x - ty.x) + n * d << ":" << (-tx.y - ty.y) + n * d << ":" << (-tx.z - ty.z) + n * d;
+    //qDebug() << (-tx.x + ty.x) + n * d << ":" << (-tx.y + ty.y) + n * d << ":" << (-tx.z + ty.z) + n * d;
+    
+    glBegin(GL_QUADS);
+      glVertex4f((tx.x + ty.x) + n * d, (tx.y + ty.y) + n * d, (tx.z + ty.z) + n * d, 0.001);
+      glVertex4f((tx.x - ty.x) + n * d, (tx.y - ty.y) + n * d, (tx.z - ty.z) + n * d, 0.001);
+      glVertex4f((-tx.x - ty.x) + n * d, (-tx.y - ty.y) + n * d, (-tx.z - ty.z) + n * d, 0.001);
+      glVertex4f((-tx.x + ty.x) + n * d, (-tx.y + ty.y) + n * d, (-tx.z + ty.z) + n * d, 0.001);
+    glEnd();
+}
+
+void GLDisplay::drawBox(NxBoxShape* boxShape) const {
+
+  NxMat34 boxPose = boxShape->getGlobalPose ();
+  
+  NxF32 matrix[16];
+  boxPose.getColumnMajor44(matrix);
+  glPushMatrix();
+  glMultMatrixf(matrix);
+  
+  
+  glBegin(GL_QUADS);
+  for (int i = 0 ; i < 2 ; i++) {
+    double unit = 0.5*((i*2)-1);
+    
+    glColor3d(1.0, 0.0, 0.0);
+    glVertex3d( unit,  0.5,  0.5);
+    glVertex3d( unit,  0.5, -0.5);
+    glVertex3d( unit, -0.5, -0.5);
+    glVertex3d( unit, -0.5,  0.5);
+    
+    glColor3d(0.0, 1.0, 0.0);
+    glVertex3d(  0.5, unit,  0.5);
+    glVertex3d(  0.5, unit, -0.5);
+    glVertex3d( -0.5, unit, -0.5);
+    glVertex3d( -0.5, unit,  0.5);
+    
+    glColor3d(0.0, 0.0, 1.0);
+    glVertex3d(  0.5,  0.5, unit);
+    glVertex3d(  0.5, -0.5, unit);
+    glVertex3d( -0.5, -0.5, unit);
+    glVertex3d( -0.5,  0.5, unit);
+  }
+  glEnd();
+
+  glPopMatrix();
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
 ****************************************************************************/
 void GLDisplay::drawCube() const
 {
-  glPushMatrix();
+  /*glPushMatrix();
   
   //glScaled(100,100,100);
   glBegin(GL_QUADS);
@@ -196,7 +333,7 @@ void GLDisplay::drawCube() const
   }
   glEnd();
   
-  glPopMatrix();
+  glPopMatrix();*/
 }
 
 /****************************************************************************

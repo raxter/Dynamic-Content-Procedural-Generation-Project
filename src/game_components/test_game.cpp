@@ -94,6 +94,23 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
   
   gScene = gPhysicsSDK->createScene(sceneDesc);
   
+  NxActorDesc planeActorDesc;
+  planeShapeDesc = new  NxPlaneShapeDesc();
+  planeActorDesc.shapes.push_back(planeShapeDesc);
+  
+  gScene->createActor(planeActorDesc);
+  
+  NxActorDesc boxActorDesc;
+  boxShapeDesc = new  NxBoxShapeDesc();
+  boxShapeDesc->dimensions = NxVec3(1,1,1);
+  boxShapeDesc->density = 1;
+  boxActorDesc.shapes.push_back(boxShapeDesc);
+  boxActorDesc.globalPose = NxMat34  	( NxMat33(), NxVec3(0, 10, 0)); 
+  //boxActorDesc.globalPose = NxMat34  	( NxMat33(), NxVec3(0, 10, 0)); 
+  gScene->createActor(boxActorDesc);
+  
+  
+    
  /* 
 // Define the size of the world. Simulation will still work
 	// if bodies reach the end of the world, but it will be slower.
@@ -244,7 +261,10 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
     yaw += 0.01*mouseMove.x();
   }
 
- 
+	NxReal timeStep = 1.0f / 60.0f;
+  gScene->simulate (timeStep);
+  gScene->flushStream(); 
+  while (!gScene->fetchResults(NX_RIGID_BODY_FINISHED, false)); 
   /*b2Vec2 diff =  (ball[0]->GetPosition() - ball[1]->GetPosition());
   ball_dist = diff.Length();
 	  
@@ -326,6 +346,9 @@ void TestGame::calculateOffsetAndZoom() {
 ****************************************************************************/
 void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
 {
+
+  
+
   //qDebug() << "TestGame::renderStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   //qDebug() << "currentContext valid: " << QGLContext::currentContext ()->isValid();
 
@@ -373,13 +396,25 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   glEnd();
   glBindTexture(GL_TEXTURE_2D, -1);
   
-  displayer.drawCube();
+  //displayer.drawCube();
   
   glColor3d(1.0,1.0,1.0);
-  Q_FOREACH(b2Body * body, bodies) {
+  /*Q_FOREACH(b2Body * body, bodies) {
     displayer.drawBody(body);
-  }
+  }*/
   
+  qDebug() << "actors";
+  int nbActors = gScene->getNbActors();
+  NxActor** actors = gScene->getActors();
+  while (nbActors--)
+  {
+    NxActor* actor = *actors++;
+    qDebug() << actor;
+    NxVec3 pos = actor->getGlobalPosition ();
+    qDebug() << pos.x << ":" << pos.y << ":" << pos.z;
+    displayer.drawActor(actor);
+    //DrawActor(actor);
+  } 
  
 	
   glColor3d(1.0,1.0,1.0);

@@ -7,6 +7,7 @@
 #include <QImage>
 
 #include "Box2D.h"
+#include "NxPhysics.h"
 
 namespace ProcGen {
 
@@ -32,6 +33,7 @@ class Display {
   virtual unsigned int bindTexture(const QImage& image) const = 0;
   
   virtual void drawBody(b2Body* body) const = 0;
+  virtual void drawActor(NxActor* actor) const = 0;
   
   virtual void drawCube() const = 0;
   
