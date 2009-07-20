@@ -76,11 +76,11 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
 {
   qDebug() << "TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   
-  x = 0; y = 0; z = 0, pitch = 0, yaw = 0;
+  x = 0; y = -10; z = -50, pitch = 0, yaw = 0;
   
   
-  gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION, NULL, NULL);
-  qDebug() << "gPhysicsSDK = " << gPhysicsSDK;
+  gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION);
+  qDebug() << "gPhysicsSDK = " << gPhysicsSDK << ", HW vers = " << gPhysicsSDK->getHWVersion () ;
   
   // Set scale dependent parameters
   NxReal scale = 1.0f;   // scale is meters per PhysX units
@@ -96,8 +96,9 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
   //sceneDesc.simType = NX_SIMULATION_HW; // Hardware mode
   
   gScene = gPhysicsSDK->createScene(sceneDesc);
+  qDebug() << "gScene = " << gScene << ", sim type = " << gScene->getSimType () << ", writable? = " <<  gScene->isWritable ();
   
-	//Set default material
+  //Set default material
 	NxMaterial* defaultMaterial = gScene->getMaterialFromIndex(0);
 	defaultMaterial->setRestitution(0.0f);
 	defaultMaterial->setStaticFriction(0.5f);
@@ -111,29 +112,43 @@ void TestGame::initStep(const AbstractGameComponent::Display& displayer)
   gScene->createActor(planeActorDesc);
   
   
-  // create box
+  for (int i = 0 ; i < 300 ; i++) {
+    // create box
+    
+	  //Define new physics object
+	  NxBodyDesc bodyDesc;
+	  bodyDesc.angularDamping	= 0.5f;
+	  bodyDesc.linearVelocity = NxVec3(0.0f, 0.0f, 0.0f);
+
+	  //Decribe shape
+    NxBoxShapeDesc boxShapeDesc;
+    boxShapeDesc.dimensions = NxVec3(1,1,1);
+    
+    NxActorDesc boxActorDesc;
+    boxActorDesc.shapes.push_back(&boxShapeDesc);
+	  boxActorDesc.body = &bodyDesc;
+	  boxActorDesc.density	= 10.0f;
+	  boxActorDesc.globalPose.t = NxVec3(0, 2+i*2, 0);
+    box = gScene->createActor(boxActorDesc);
+  }
   
-	//Define new physics object
-	NxBodyDesc bodyDesc;
-	bodyDesc.angularDamping	= 0.5f;
-	bodyDesc.linearVelocity = NxVec3(0.0f, 0.0f, 0.0f);
-	
-	//Decribe shape
-  NxBoxShapeDesc boxShapeDesc;
-  boxShapeDesc.dimensions = NxVec3(1,1,1);
   
-  NxActorDesc boxActorDesc;
-  boxActorDesc.shapes.push_back(&boxShapeDesc);
-	boxActorDesc.body = &bodyDesc;
-	boxActorDesc.density	= 10.0f;
-	boxActorDesc.globalPose.t = NxVec3(0, 30, 0);
-  box = gScene->createActor(boxActorDesc);
+	//NxReal timeStep = 1.0f / 60.0f;
+  //gScene->simulate (timeStep);
  
   //gScene->setTiming(1.0/60.0);
 	
   backgroundTexture = QImage("../content/background.png");
   backgroundTextureId = displayer.bindTexture(backgroundTexture);
   glBindTexture(GL_TEXTURE_2D, -1);
+  
+  
+    // Update the time step
+    NxReal deltaTime = 1.0f/60.0f;
+
+    // Start collision and dynamics for delta time since the last frame
+    gScene->simulate(deltaTime);
+    gScene->flushStream(); 
   
   qDebug() << "END TestGame::initStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
@@ -150,6 +165,8 @@ void TestGame::cleanUpStep() {
 ****************************************************************************/
 void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlInterface)
 {
+   while (!gScene->fetchResults(NX_RIGID_BODY_FINISHED, false)); 
+
   //qDebug() << "TestGame::logicStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
   framecount++;
   
@@ -171,25 +188,33 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
     qDebug() << directionCode << ":" << directionOffset[directionCode];
     double directionToMove = yaw + directionOffset[directionCode];
     x -= 0.1*sin(directionToMove);
-    y += 0.1*cos(directionToMove);
+    z += 0.1*cos(directionToMove);
   }
   
   if  (controlInterface.isKeyDown(Qt::Key_Space))
-    z += 0.1;
+    y -= 0.1;
   if  (controlInterface.isKeyDown(Qt::Key_Shift))
-    z -= 0.1;
+    y += 0.1;
     
   if (controlInterface.isMouseDown(Qt::LeftButton)) {
     pitch += 0.01*mouseMove.y();
     yaw += 0.01*mouseMove.x();
   }
 
+  box->addForce(NxVec3(0,1,0));
+  //gScene->flushStream();
+  //gScene->fetchResults(NX_RIGID_BODY_FINISHED, true); 
   
-  gScene->flushStream();
-  gScene->fetchResults(NX_RIGID_BODY_FINISHED, true); 
+	//NxReal timeStep = 1.0f / 60.0f;
+  //gScene->simulate (timeStep);
   
-	NxReal timeStep = 1.0f / 60.0f;
-  gScene->simulate (timeStep);
+    // Update the time step
+    NxReal deltaTime = 1.0f/60.0f;
+  
+    qDebug() << "gScene = " << gScene << ", sim type = " << gScene->getSimType () << ", writable? = " <<  gScene->isWritable ();
+    // Start collision and dynamics for delta time since the last frame
+    gScene->simulate(deltaTime);
+    gScene->flushStream(); 
 
   //qDebug() << "ENDTestGame::logicStep" << "currentContext: " << QGLContext::currentContext () << " Thread: " << QThread::currentThread ();
 }
@@ -213,9 +238,9 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   glLoadIdentity();
   
   
-  //glRotated(90.0/M_PI*180,1,0,0);
+  //glRotated(90.0/M_PI*180,0,1,0);
   glRotated(pitch/M_PI*180, 1,0,0);
-  glRotated(-yaw/M_PI*180, 0,0,1);
+  glRotated(yaw/M_PI*180, 0,1,0);
   glTranslated(x,y,z);
   
   
@@ -224,7 +249,7 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   
   glColor3d(1.0,1.0,1.0);
   
-  float size = 1000;
+  /*float size = 1000;
   glBegin(GL_QUADS);
   for (int i = -1 ; i <= 0 ; i++) {
     for (int j = -0 ; j <= 0 ; j++) {
@@ -234,7 +259,7 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
       glTexCoord2f(0,0); glVertex3f(size*(i+1), size*(j),   -10);
     }
   }
-  glEnd();
+  glEnd();*/
   glBindTexture(GL_TEXTURE_2D, -1);
   
   glColor3d(1.0,1.0,1.0);
@@ -247,7 +272,7 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
     NxActor* actor = *actors++;
     qDebug() << actor;
     NxVec3 pos = actor->getGlobalPosition ();
-    qDebug() << pos.x << ":" << pos.y << ":" << pos.z;
+    qDebug() << pos.x << ":" << pos.y << ":" << pos.z << ", mass = " << actor->getMass ();
     displayer.drawActor(actor);
     //DrawActor(actor);
   } 

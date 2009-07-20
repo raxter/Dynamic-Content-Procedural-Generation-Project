@@ -269,30 +269,30 @@ void GLDisplay::drawBox(NxBoxShape* boxShape) const {
   NxF32 matrix[16];
   boxPose.getColumnMajor44(matrix);
   glPushMatrix();
-  //glMultMatrixf(matrix);
+  glMultMatrixf(matrix);
   
   
   glBegin(GL_QUADS);
   for (int i = 0 ; i < 2 ; i++) {
-    double unit = 0.5*((i*2)-1);
+    double unit = 1*((i*2)-1);
     
     glColor3d(1.0, 0.0, 0.0);
-    glVertex3d( unit,  0.5,  0.5);
-    glVertex3d( unit,  0.5, -0.5);
-    glVertex3d( unit, -0.5, -0.5);
-    glVertex3d( unit, -0.5,  0.5);
+    glVertex3d( unit,  1,  1);
+    glVertex3d( unit,  1, -1);
+    glVertex3d( unit, -1, -1);
+    glVertex3d( unit, -1,  1);
     
     glColor3d(0.0, 1.0, 0.0);
-    glVertex3d(  0.5, unit,  0.5);
-    glVertex3d(  0.5, unit, -0.5);
-    glVertex3d( -0.5, unit, -0.5);
-    glVertex3d( -0.5, unit,  0.5);
+    glVertex3d(  1, unit,  1);
+    glVertex3d(  1, unit, -1);
+    glVertex3d( -1, unit, -1);
+    glVertex3d( -1, unit,  1);
     
     glColor3d(0.0, 0.0, 1.0);
-    glVertex3d(  0.5,  0.5, unit);
-    glVertex3d(  0.5, -0.5, unit);
-    glVertex3d( -0.5, -0.5, unit);
-    glVertex3d( -0.5,  0.5, unit);
+    glVertex3d(  1,  1, unit);
+    glVertex3d(  1, -1, unit);
+    glVertex3d( -1, -1, unit);
+    glVertex3d( -1,  1, unit);
   }
   glEnd();
 
