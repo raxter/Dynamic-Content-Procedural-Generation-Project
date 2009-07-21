@@ -182,42 +182,42 @@ void GLDisplay::drawActor(NxActor* actor) const {
     switch(shape->getType())
     {
         case NX_SHAPE_PLANE:
-          qDebug() << "NX_SHAPE_PLANE";
+          //qDebug() << "NX_SHAPE_PLANE";
           drawPlane(shape->isPlane());
           break;
         case NX_SHAPE_SPHERE:
-          qDebug() << "NX_SHAPE_SPHERE";
+          //qDebug() << "NX_SHAPE_SPHERE";
           break;
         case NX_SHAPE_BOX:
-          qDebug() << "NX_SHAPE_BOX";
+          //qDebug() << "NX_SHAPE_BOX";
           drawBox(shape->isBox());
           break;
         case NX_SHAPE_CAPSULE:
-          qDebug() << "NX_SHAPE_CAPSULE";
+          //qDebug() << "NX_SHAPE_CAPSULE";
           break;
         case NX_SHAPE_WHEEL:
-          qDebug() << "NX_SHAPE_WHEEL";
+          //qDebug() << "NX_SHAPE_WHEEL";
           break;
         case NX_SHAPE_CONVEX:
-          qDebug() << "NX_SHAPE_CONVEX";
+          //qDebug() << "NX_SHAPE_CONVEX";
           break;
         case NX_SHAPE_MESH:
-          qDebug() << "NX_SHAPE_MESH";
+          //qDebug() << "NX_SHAPE_MESH";
           break;
         case NX_SHAPE_HEIGHTFIELD:
-          qDebug() << "NX_SHAPE_HEIGHTFIELD";
+          //qDebug() << "NX_SHAPE_HEIGHTFIELD";
           break;
         case NX_SHAPE_RAW_MESH:
-          qDebug() << "NX_SHAPE_RAW_MESH";
+          //qDebug() << "NX_SHAPE_RAW_MESH";
           break;
         case NX_SHAPE_COMPOUND:
-          qDebug() << "NX_SHAPE_COMPOUND";
+          //qDebug() << "NX_SHAPE_COMPOUND";
           break;
         case NX_SHAPE_COUNT:
-          qDebug() << "NX_SHAPE_COUNT";
+          //qDebug() << "NX_SHAPE_COUNT";
           break;
         case NX_SHAPE_FORCE_DWORD:
-          qDebug() << "NX_SHAPE_FORCE_DWORD";
+          //qDebug() << "NX_SHAPE_FORCE_DWORD";
           break;
         default:
           qDebug() << "Unknown shape!";

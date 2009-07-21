@@ -211,7 +211,7 @@ void TestGame::logicStep(const AbstractGameComponent::ControlInterface& controlI
     // Update the time step
     NxReal deltaTime = 1.0f/60.0f;
   
-    qDebug() << "gScene = " << gScene << ", sim type = " << gScene->getSimType () << ", writable? = " <<  gScene->isWritable ();
+    //qDebug() << "gScene = " << gScene << ", sim type = " << gScene->getSimType () << ", writable? = " <<  gScene->isWritable ();
     // Start collision and dynamics for delta time since the last frame
     gScene->simulate(deltaTime);
     gScene->flushStream(); 
@@ -264,22 +264,22 @@ void TestGame::renderStep(const AbstractGameComponent::Display& displayer)
   
   glColor3d(1.0,1.0,1.0);
   
-  qDebug() << "actors";
+  //qDebug() << "actors";
   int nbActors = gScene->getNbActors();
   NxActor** actors = gScene->getActors();
   while (nbActors--)
   {
     NxActor* actor = *actors++;
-    qDebug() << actor;
+    //qDebug() << actor;
     NxVec3 pos = actor->getGlobalPosition ();
-    qDebug() << pos.x << ":" << pos.y << ":" << pos.z << ", mass = " << actor->getMass ();
+    //qDebug() << pos.x << ":" << pos.y << ":" << pos.z << ", mass = " << actor->getMass ();
     displayer.drawActor(actor);
     //DrawActor(actor);
   } 
  
-  qDebug() << "BOX";
-  NxVec3 pos = box->getGlobalPosition ();
-  qDebug() << pos.x << ":" << pos.y << ":" << pos.z;
+  //qDebug() << "BOX";
+  //NxVec3 pos = box->getGlobalPosition ();
+  //qDebug() << pos.x << ":" << pos.y << ":" << pos.z;
 	
   glColor3d(1.0,1.0,1.0);
   //displayer.drawText2D(10,30, QString("Ang Vel = ") + QString::number(ball[0]->GetAngularVelocity()), QFont());
