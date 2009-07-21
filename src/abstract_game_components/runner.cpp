@@ -91,7 +91,7 @@ void Runner::run()
   //gameInterface.initStep();
   
   while (!gameInterface.initialized()) {
-    yieldCurrentThread ();
+    //yieldCurrentThread ();
     usleep(50000);
   }
   running = true;
@@ -133,7 +133,7 @@ void Runner::run()
       render = false;                                                 
     }                                                                 
     usleep(20000);                                                     
-    yieldCurrentThread ();                                          
+    //yieldCurrentThread ();                                          
                                                                       
                                                                       
     //interpolation = float( getTimeOfDay() + SKIP_TICKS - next_game_tick )
