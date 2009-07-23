@@ -30,14 +30,14 @@ class Display {
   
   virtual void initRenderStep() = 0;
   
-  virtual unsigned int bindTexture(const QImage& image) const = 0;
-  
+  virtual void setUpCamera(double x, double y, double z, double pitch, double yaw) const = 0;
+  virtual unsigned int loadTexture(const QImage& image) const = 0;
+  virtual void bindTexture(unsigned int id = -1) const  = 0;
+
   //virtual void drawBody(b2Body* body) const = 0;
   virtual void drawActor(NxActor* actor) const = 0;
   
-  virtual void drawCube() const = 0;
-  
-  virtual void drawPolygon(const QVector<double>& points) const = 0;
+  virtual void setColour(double red, double green, double blue, double alpha = 1.0) const = 0;
   
   virtual void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const = 0;
   //void drawMesh, etc

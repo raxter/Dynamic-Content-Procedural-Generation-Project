@@ -154,6 +154,9 @@ void GLDisplayWidget::paintGL() {
       performResize = false;
     }
     gameCore.renderStep(displayer);
+    displayer.initRenderStep();
+    gameCore.renderStep(displayer);
+    displayer.cleanupRenderStep();
   }
   else {
     //qDebug() << "GLContext NULL!!";
@@ -234,8 +237,8 @@ void GLDisplayWidget::mouseReleaseEvent ( QMouseEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
-  qDebug() << "keyPressEvent";
   if (!event->isAutoRepeat () ) {
+    qDebug() << "keyPressEvent";
     //emit keyEvent(event->key (), true);
     controlInterface.incomingKeyEvent(event->key (), true);
   }
@@ -246,8 +249,8 @@ void GLDisplayWidget::keyPressEvent ( QKeyEvent * event ) {
 **
 ****************************************************************************/
 void GLDisplayWidget::keyReleaseEvent ( QKeyEvent * event ) {
-  qDebug() << "keyReleaseEvent";
   if (!event->isAutoRepeat ()) {
+    qDebug() << "keyReleaseEvent";
     //emit keyEvent(event->key (), false);
     controlInterface.incomingKeyEvent(event->key (), false);
   }

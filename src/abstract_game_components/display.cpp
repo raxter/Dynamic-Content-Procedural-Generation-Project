@@ -69,7 +69,17 @@ void Display::cleanupRenderStep()
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-unsigned int Display::bindTexture(const QImage& image) const {
+unsigned int Display::loadTexture(const QImage& image) const {
+
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void Display::bindTexture(unsigned int id) const {
 
 }
 
@@ -78,10 +88,10 @@ unsigned int Display::bindTexture(const QImage& image) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-//void Display::drawBody(b2Body* body) const {
+void Display::setUpCamera(double x, double y, double z, double pitch, double yaw) const
+{
+}
 
-
-//}
 
 /****************************************************************************
 **
@@ -99,18 +109,10 @@ void Display::drawActor(NxActor* actor) const {
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-void Display::drawCube() const
-{
+void Display::setColour(double red, double green, double blue, double alpha) const {
+
 }
 
-/****************************************************************************
-**
-** Author: Richard Baxter
-**
-****************************************************************************/
-void Display::drawPolygon(const QVector<double>& points) const
-{
-}
 
 
 

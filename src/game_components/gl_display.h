@@ -32,7 +32,12 @@ class GLDisplay : public AbstractGameComponent::Display {
   void initRenderStep();
   void cleanupRenderStep();
   
-  unsigned int bindTexture(const QImage& image) const;
+  void setUpCamera(double x, double y, double z, double pitch, double yaw) const;
+  
+  //unsigned int bindTexture(const QImage& image) const;
+  
+  unsigned int loadTexture(const QImage& image) const;
+  void bindTexture(unsigned int id) const;
   
   //void drawBody(b2Body* body) const;
   void drawActor(NxActor* actor) const;
@@ -41,9 +46,9 @@ class GLDisplay : public AbstractGameComponent::Display {
   void drawPlane(NxPlaneShape* plane) const;
   void drawBox(NxBoxShape* boxShape) const;
   
-  void drawCube() const;
   
-  void drawPolygon(const QVector<double>& points) const;
+  void setColour(double red, double green, double blue, double alpha) const;
+  
   void drawText2D(int x, int y, const QString & str, const QFont & fnt = QFont ( ), int listBase = 2000 ) const;
   //void drawMesh, etc
 

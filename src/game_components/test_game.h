@@ -1,7 +1,6 @@
 #ifndef __PROCGEN_GAMECOMPONENT_TESTGAME_H__
 #define __PROCGEN_GAMECOMPONENT_TESTGAME_H__
 
-#include <QGLContext>
 #include <QImage>
 #include <QDir>
 
@@ -34,9 +33,7 @@ class TestGame : public AbstractGameComponent::Game {
   
   private: /* methods */
   
-  //b2Body* createBox(float32 x, float32 y, float32 width, float32 height, float32 angle = 0, float32 density = 1);
-  //b2Body* createCircle(float32 x, float32 y, float32 radius, float32 angle = 0, float32 density = 1);
-  //void calculateOffsetAndZoom();
+  NxActor* createBox(NxVec3 pos, NxVec3 dim);
   
   private:
   
@@ -51,7 +48,6 @@ class TestGame : public AbstractGameComponent::Game {
   NxPhysicsSDK* gPhysicsSDK;
   NxScene* gScene;
   
-  NxActor* box;
   
   
   QImage backgroundTexture;
